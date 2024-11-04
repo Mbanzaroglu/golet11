@@ -43,7 +43,7 @@ def initialize_database():
         cursor.close()
 
     # SQL dosyasının göreceli yolunu ayarlama
-    sql_file_path = os.path.join(os.path.dirname(__file__), '../database/create_tables.sql')
+    sql_file_path = os.path.join(os.path.dirname(__file__), 'database/create_tables.sql')
 
     try:
         # SQL dosyasını çalıştır
