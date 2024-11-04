@@ -34,10 +34,6 @@ Frontend ile ilgili tüm dosyaların yer aldığı klasördür. Kullanıcı aray
 - **index.html**: Frontend’in ana HTML dosyasıdır. Kullanıcının giriş yaptığı ana sayfa olarak kullanılır.
 - **script.js**: JavaScript dosyasıdır. Kullanıcı etkileşimleri ve dinamik içerik güncellemeleri için kullanılır.
 - **styles.css**: CSS dosyasıdır. Sayfanın görünümünü ve stilini belirler. Daha 'statics' adı altında bir klasörde bir araya toplanabilirler.
-
-## templates/
-Flask şablon dosyalarının bulunduğu klasördür. Dinamik HTML içerikleri oluşturmak için kullanılır.
-
 - **base.html**: Diğer şablon dosyalarının miras aldığı temel yapı. Genelde başlık, menü, alt bilgi gibi ortak bölümleri içerir.
 - **home.html**: Öylesine koydum, görevine göre html dosyası eklicez buraya.
 
