@@ -1,7 +1,6 @@
 from backend import create_app
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from backend.mysql_connector import initialize_database
+from flask import Flask, render_template
 
 app = create_app()
 
