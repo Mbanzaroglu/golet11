@@ -2,6 +2,8 @@ from . import db
 # Burada class olarak tanımlıyoruz çünkü kodun içerisindeki CRUD işlemleri için direkt class yapısını verimli bir şekilde kullanabiliriz.
 # Tablolar üzerinde yapacağımız sütun ekle-çıkar ya da yeni tablo ekleme işlemlerini yine burada yapacağız
 
+#BUNU KULLANMAMIZA GEREK KALMADI. SQL SORGULARI İLE GİDİCEZ AMA ŞİMDİLİK BURDA DURSUN BELKİ BİR İŞE YARAR.
+
 # bp_release tablosunu temsil eden sınıf
 class Release(db.Model):
     __tablename__ = 'bp_release'
