@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Systems CRUD Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>CRUD Application</h1>
+        
+        <!-- Create Record Form -->
+        <div class="form-container">
+            <h2>Create Record</h2>
+            <input type="text" id="title" placeholder="Enter Title">
+            <button onclick="createRecord()">Create</button>
+        </div>
+
+        <!-- Records Display Area -->
+        <div id="records">
+            <h2>Records</h2>
+            <div id="record-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
