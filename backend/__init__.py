@@ -12,7 +12,7 @@ def create_app():
     app.register_blueprint(main)
 
     # MySQL veritabanı bağlantısını yapılandır
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@localhost/db_name'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Banzaroglu196761@127.0.0.1/bp_database'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # İzleme modunu kapatarak performansı artırır
 
     # SQLAlchemy'yi uygulama ile başlat
