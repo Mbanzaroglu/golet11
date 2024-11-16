@@ -1,4 +1,4 @@
-from . import db
+from .. import db
 # Burada class olarak tanımlıyoruz çünkü kodun içerisindeki CRUD işlemleri için direkt class yapısını verimli bir şekilde kullanabiliriz.
 # Tablolar üzerinde yapacağımız sütun ekle-çıkar ya da yeni tablo ekleme işlemlerini yine burada yapacağız
 
