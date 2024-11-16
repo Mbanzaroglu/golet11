@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from backend.mysql_connector import conn  # MySQL bağlantısını import edin
+from app.utils.mysql_connector import conn  # MySQL bağlantısını import edin
 
 main = Blueprint('main', __name__)
 

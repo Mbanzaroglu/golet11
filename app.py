@@ -1,5 +1,5 @@
-from backend import create_app
-from backend.mysql_connector import initialize_database
+from app import create_app
+from app.utils.mysql_connector import initialize_database
 from flask import Flask, render_template
 
 app = create_app()
