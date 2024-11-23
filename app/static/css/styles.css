@@ -1,0 +1,38 @@
+.header-title { /* header.html başlık kısmı */
+    text-align: center; /* Metni ortalar */
+    font-family: 'Arial', sans-serif; /* Yazı tipi ve yedek yazı tipi */
+    font-size: 2.5rem; /* Yazı boyutu */
+    color: #333; /* Yazı rengi (koyu gri) */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Yazı gölgesi */
+    margin: 20px 0; /* Üst ve alt boşluk */
+}
+
+/* navbar cssleri */ 
+
+/* Navbar genel ayarları */
+
+/*Footer cssleri */
+
+/* Footer genel stilleri */
+footer {
+    background-color: #333; /* Koyu bir arka plan rengi */
+    color: white; /* Yazı rengi */
+    text-align: center; /* Ortaya hizalama */
+    padding: 15px 0; /* Yukarı ve aşağı boşluk */
+    font-size: 14px; /* Yazı boyutu */
+    position: relative; /* Dinamik yerleşim */
+    bottom: 0; /* Alt hizalama */
+    width: 100%; /* Sayfanın tamamını kapla */
+    position: fixed; /* Sabit konumlandırma */
+}
+
+/* Footer'daki metin */
+footer p {
+    margin: 0; /* Varsayılan boşlukları kaldır */
+}
+
+/* Hover efekti (isteğe bağlı) */
+footer p:hover {
+    color: #f0f0f0; /* Hafif bir gri tonu */
+    text-decoration: underline; /* Alt çizgi ekle */
+}
