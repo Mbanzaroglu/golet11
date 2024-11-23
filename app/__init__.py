@@ -1,26 +1,25 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv
+from app.routes.routes import main_bp
+from datetime import timedelta
 import os
 
 # Initialize extensions
-db = SQLAlchemy()
+# db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
 
-    
     # Load configuration from .env
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.secret_key = os.getenv('SECRET_KEY') # Set secret key for session management
+    app.permanent_session_lifetime = timedelta(minutes=30) # Set session lifetime to 30 minutes
+    # app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    # # Initialize extensions
+    # db.init_app(app)
 
-
-    # Initialize extensions
-    db.init_app(app)
-
-    # Import and register Blueprints
-    from app.routes.routes import main
-    app.register_blueprint(main)
+    #register Blueprints
+    app.register_blueprint(main_bp)
 
     return app
