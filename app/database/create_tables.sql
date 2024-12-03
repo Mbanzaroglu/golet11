@@ -27,13 +27,12 @@ CREATE TABLE bp_track (
     track_id INTEGER PRIMARY KEY,
     title TEXT,
     mix TEXT,
-    is_remixed BOOLEAN,
     release_date DATE,
     genre_id INTEGER,
     subgenre_id INTEGER,
     track_url TEXT,
     bpm TEXT,
-    duration INTEGER,
+    duration TIME,
     FOREIGN KEY (genre_id) REFERENCES bp_genre(genre_id),
     FOREIGN KEY (subgenre_id) REFERENCES bp_genre(genre_id)
 );
@@ -53,7 +52,6 @@ CREATE TABLE artist_track (
     artist_id INTEGER,
     track_id INTEGER,
     updated_on TIMESTAMP(0),
-    is_remixer BOOLEAN,
     FOREIGN KEY (artist_id) REFERENCES bp_artist(artist_id),
     FOREIGN KEY (track_id) REFERENCES bp_track(track_id)
 );

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session
 
 # Define a Blueprint for routes
-main_bp = Blueprint('main', __name__)
+main_bp = Blueprint('main_bp', __name__)
 
 @main_bp.route('/')
 def home():
