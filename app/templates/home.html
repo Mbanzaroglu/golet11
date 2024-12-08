@@ -4,6 +4,9 @@
 
 {% block content %}
 <div style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin-top: 25px;">
+    {% if selected_page == 'home' %}
+
+    {% elif selected_page == 'songs' %}
     <div class="card" style="width: 18rem;">
         <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover 1">
         <div class="card-body">
@@ -52,5 +55,15 @@
             <a href="#" class="btn btn-primary">Listen</a>
         </div>
     </div>
+    {% elif selected_page == 'albums' %}
+
+    {% elif selected_page == 'artists' %}
+
+    {% else %}
+      <p>Sayfa bulunamadı.</p>
+    {% endif %}
+
+
+
 </div>
 {% endblock %}
