@@ -13,7 +13,7 @@ def home():
 def songs():
     selected_page = "songs"
     # SQL query to get songs with their artists
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_track.track_id,
@@ -34,7 +34,7 @@ def songs():
 def albums():
     selected_page = 'albums'
     # SQL query to get albums with their artists
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_release.release_id,
@@ -55,7 +55,7 @@ def albums():
 def artists():
     selected_page = 'artists'
     # SQL query to get artist information
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             artist_id,
@@ -73,7 +73,7 @@ def artists():
 def search():
     selected_page = 'search'
     query_param = request.args.get('q', '')
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_track.track_id,

@@ -8,7 +8,7 @@ fav_bp = Blueprint('fav_bp', __name__, url_prefix='/favorites')
 @login_required
 def favorite_songs():
     selected_page = 'favorites_songs'
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_track.track_id,
@@ -52,7 +52,7 @@ def favorite_songs():
 @login_required
 def favorite_albums():
     selected_page = 'favorites_albums'
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_release.release_id,
@@ -71,7 +71,7 @@ def favorite_albums():
         """
         cursor.execute(query, (current_user.id,))
         favorite_albums_list = cursor.fetchall()
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_release.release_id,
@@ -97,7 +97,7 @@ def favorite_albums():
 @login_required
 def favorite_artists():
     selected_page = 'favorites_artists'
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_artist.artist_id,
@@ -112,7 +112,7 @@ def favorite_artists():
         """
         cursor.execute(query, (current_user.id,))
         favorite_artists_list = cursor.fetchall()
-    with get_db_connection_and_cursor() as cursor:
+    with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_artist.artist_id,
