@@ -148,3 +148,11 @@ body {
     border-radius: 16px;
     font-size: 0.875rem;
 }
+
+/* Home.html sayfasının stilleri */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}

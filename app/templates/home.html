@@ -17,7 +17,7 @@
                 <!-- Dynamic artist name -->
                 <p class="card-text">{{ song.artist_name }}</p>
                 <!-- Button to view details or listen to the song -->
-                <a href="{{ url_for('track_bp.track_detail', track_id=song.track_id) }}" class="btn btn-primary">Listen</a>
+                <a href="{{ url_for('track_bp.track_detail', track_id=song.track_id) }}" class="btn btn-primary align-self-start">Details</a>
             </div>
         </div>
         {% endfor %}
