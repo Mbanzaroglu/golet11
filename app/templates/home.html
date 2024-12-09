@@ -5,7 +5,7 @@
 {% block content %}
 <div style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin-top: 25px;">
     {% if selected_page == 'home' %}
-
+        
     {% elif selected_page == 'songs' %}
         {% for song in songs %}
         <div class="card" style="width: 18rem;">
@@ -17,7 +17,7 @@
                 <!-- Dynamic artist name -->
                 <p class="card-text">{{ song.artist_name }}</p>
                 <!-- Button to view details or listen to the song -->
-                <a href="{{ url_for('track_bp.track_detail', track_id=song.track_id) }}" class="btn btn-primary align-self-start">Details</a>
+                <a href="{{ url_for('track_bp.track_detail', track_id=song.track_id, artist_id=song.artist_id) }}" class="btn btn-primary align-self-start">Details</a>            
             </div>
         </div>
         {% endfor %}
