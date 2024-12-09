@@ -37,9 +37,11 @@ def create_app():
     from app.routes.routes import main_bp
     from app.routes.auth import auth_bp
     from app.routes.favorites import fav_bp
+    from app.routes.track import track__bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(fav_bp, url_prefix='/favorites')
+    app.register_blueprint(track__bp, url_prefix='/track') 
 
     return app
