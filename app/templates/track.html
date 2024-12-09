@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Track Page{% endblock %}
+
+{% block content %}
+<h1 class="header-title mb-5">Parça Detayları</h1>
+<div class="container">
+    <div class="track-header row">
+        <div class = "row"> 
+        <div class="col-md-4 d-flex justify-content-center mb-4 mb-md-0">
+            <!-- Kapak görseli -->
+            <img src="https://via.placeholder.com/300" alt="Track Artwork" class="track-artwork img-fluid">        
+        </div>
+        <div class="col-md-8 track-info">
+            <!-- Başlık ve sanatçı bilgileri dinamik olarak güncellenecek -->
+            <h1 class="track-title">Track Title (Original Mix)</h1>
+            <div class="track-artists mb-3">Artist Name</div>
+            <button class="play-button">
+                <span class="play-icon">▶</span> Play Track
+            </button>
+
+            <div class="track-metadata mt-4">
+                <!-- Bu alanlar JS ile güncellenecek -->
+                <div class="metadata-item">
+                    <div class="metadata-label">Release Date</div>
+                    <div class="metadata-value"></div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Album Name</div>
+                    <div class="metadata-value"></div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Genre</div>
+                    <div class="metadata-value"></div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">BPM</div>
+                    <div class="metadata-value"></div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Duration</div>
+                    <div class="metadata-value"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const trackData = JSON.parse('{{ track | tojson | safe }}');
+    document.addEventListener('DOMContentLoaded', function() {
+        populateTrackData(trackData);
+    });
+    // formatDuration.js fonksiyonunu burada tanımlıyoruz
+    // Bu fonksiyon saniyeyi MM:SS formatına çevirir.
+    function formatDuration(seconds) {
+        // Dakika hesaplama
+        const minutes = Math.floor(seconds / 60);
+        // Geri kalan saniyeler
+        const remainingSeconds = seconds % 60;
+        // Saniyeyi iki haneli göstermek için .padStart() kullanıyoruz.
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    // populateTrackData fonksiyonu ile track verilerini DOM'a uygularız.
+    // data: endpointten toJSON ile şablona aktarılan track bilgilerini içeriyor.
+    function populateTrackData(data) {
+        // Başlık ve sanatçı bilgilerini güncelle
+        document.querySelector('.track-title').textContent = `${data.title} (${data.mix})`;
+        document.querySelector('.track-artists').textContent = data.artists.join(', ');
+
+        // Metadata alanlarını güncelle
+        const metadataValues = document.querySelectorAll('.metadata-value');
+        // Release Date
+        metadataValues[0].textContent = new Date(data.release_date).toLocaleDateString();
+        // Release Title
+        metadataValues[1].textContent = data.release_title;
+        // Genre
+        metadataValues[2].textContent = data.genre_name;
+        //BPM
+        metadataValues[3].textContent = data.bpm;
+        // Duration (formatDuration fonksiyonu ile saniyeleri MM:SS formatına çeviriyoruz)
+        metadataValues[4].textContent = formatDuration(data.duration);
+        
+
+        // Remixers bölümünü güncelle
+        const remixerList = document.querySelector('.remixer-list');
+        remixerList.innerHTML = data.remixers
+            .map(remixer => `<span class="remixer-tag">${remixer}</span>`)
+            .join('');
+}
+</script>
+
+{% endblock %}
