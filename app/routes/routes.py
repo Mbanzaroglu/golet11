@@ -23,25 +23,27 @@ def songs():
         # Bunu yapmam sebebimiz Rastgele 50 şarkı seçmek ama order by rand yapınca çok uzun sürüyor.
         # O yüzden en mantıklısı bu şekilde yapmak
         import random
-        random_ids = random.sample(range(1, total_records + 1), min(50, total_records))
+        random_ids = random.sample(range(1, total_records + 1), min(100, total_records))
         
         # Bu ID'leri kullanarak sorguyu çalıştır
         query = """
         SELECT
             bp_track.track_id,
             bp_track.title AS song_title,
-            bp_artist.artist_name AS artist_name
+            MIN(bp_artist.artist_name) AS artist_name,  -- İlk sanatçıyı seçiyoruz
+            MIN(artist_track.artist_id) AS artist_id   -- İlgili artist_id'yi seçiyoruz
         FROM
             bp_track
-        LEFT JOIN
+        INNER JOIN
             artist_track ON bp_track.track_id = artist_track.track_id
-        LEFT JOIN
+        INNER JOIN
             bp_artist ON artist_track.artist_id = bp_artist.artist_id
-        LEFT JOIN
+        INNER JOIN
             bp_release ON bp_track.release_id = bp_release.release_id
-        LEFT JOIN 
+        INNER JOIN 
             bp_genre ON bp_track.genre_id = bp_genre.genre_id
         WHERE bp_track.track_id IN ({})
+        GROUP BY bp_track.track_id, bp_track.title
         """.format(','.join(map(str, random_ids)))
         cursor.execute(query)
         songs_list = cursor.fetchall()  # Fetch all results
@@ -61,9 +63,9 @@ def albums():
             bp_artist.artist_name
         FROM
             bp_release
-        LEFT JOIN
+        INNER JOIN
             artist_release ON bp_release.release_id = artist_release.release_id
-        LEFT JOIN
+        INNER JOIN
             bp_artist ON artist_release.artist_id = bp_artist.artist_id
         """
         cursor.execute(query)
@@ -100,9 +102,9 @@ def search():
             bp_artist.artist_name
         FROM
             bp_track
-        LEFT JOIN
+        INNER JOIN
             artist_track ON bp_track.track_id = artist_track.track_id
-        LEFT JOIN
+        INNER JOIN
             bp_artist ON artist_track.artist_id = bp_artist.artist_id
         WHERE
             bp_track.title LIKE %s OR bp_artist.artist_name LIKE %s
