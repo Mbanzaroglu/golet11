@@ -13,22 +13,22 @@ def home():
 def songs():
     selected_page = "songs"
     # SQL query to get songs with their artists
-    with get_db_connection_and_cursor() as (conn, cursor):
-        query = """
-        SELECT
-            bp_track.track_id,
-            bp_track.title,
-            bp_artist.artist_name
-        FROM
-            bp_track
-        LEFT JOIN
-            artist_track ON bp_track.track_id = artist_track.track_id
-        LEFT JOIN
-            bp_artist ON artist_track.artist_id = bp_artist.artist_id
-        """
-        cursor.execute(query)
-        songs_list = cursor.fetchall()
-    return render_template('home.html', selected_page=selected_page, songs=songs_list)
+    # with get_db_connection_and_cursor() as (conn, cursor):
+    #     query = """
+    #     SELECT
+    #         bp_track.track_id,
+    #         bp_track.title,
+    #         bp_artist.artist_name
+    #     FROM
+    #         bp_track
+    #     LEFT JOIN
+    #         artist_track ON bp_track.track_id = artist_track.track_id
+    #     LEFT JOIN
+    #         bp_artist ON artist_track.artist_id = bp_artist.artist_id
+    #     """
+    #     cursor.execute(query)
+    #     songs_list = cursor.fetchall()
+    return render_template('home.html', selected_page=selected_page)
 
 @main_bp.route('/albums')
 def albums():
