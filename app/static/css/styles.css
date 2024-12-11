@@ -5,7 +5,7 @@
     padding: 0;
 }
 
-body {
+.body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
     color: #333;
@@ -16,8 +16,8 @@ body {
 
 /* Navbar Styling */
 .navbar {
-    background-color: #333;
-    color: white;
+    background-color: greenyellow;
+    color: red;
     padding: 15px 20px;
     display: flex;
     justify-content: space-between;
@@ -61,11 +61,13 @@ body {
     background: linear-gradient(135deg, #f8c06f 0%, #e14e42 100%);
     color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #e14e42;
 }
 
 .header h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
+    background-color: #28a745;
 }
 
 .header p {
@@ -78,14 +80,14 @@ body {
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: red;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
 
 /* Form Styling */
-form {
+.form {
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -95,13 +97,13 @@ form {
     margin: 20px auto;
 }
 
-form label {
+.form-label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-form input[type="text"] {
+.form-input[type="text"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 15px;
@@ -109,7 +111,7 @@ form input[type="text"] {
     border-radius: 4px;
 }
 
-form button {
+.form-button {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -121,7 +123,7 @@ form button {
     transition: background-color 0.3s ease;
 }
 
-form button:hover {
+.form-button:hover {
     background-color: #0056b3;
 }
 
@@ -134,7 +136,7 @@ form button:hover {
 
 /* Footer Styling */
 .footer {
-    background-color: #333;
+    background-color: black;
     color: white;
     text-align: center;
     padding: 20px;
