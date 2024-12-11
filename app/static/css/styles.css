@@ -20,7 +20,7 @@ footer {
     text-align: center; /* Ortaya hizalama */
     padding: 15px 0; /* Yukarı ve aşağı boşluk */
     font-size: 14px; /* Yazı boyutu */
-    position: relative; /* Dinamik yerleşim */
+    position: fixed; /* Dinamik yerleşim */
     bottom: 0; /* Alt hizalama */
     width: 100%; /* Sayfanın tamamını kapla */
     /* position: fixed; Sabit konumlandırma */
@@ -60,7 +60,7 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
-    margin-bottom: 40px;
+    margin-bottom: 65px;
 }
 
 .track-header {
