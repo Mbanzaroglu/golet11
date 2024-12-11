@@ -3,19 +3,22 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
 import os
 from flask_login import LoginManager
+from dotenv import load_dotenv  # dotenv kütüphanesi eklendi
 from app.models.models import User
 from app.utils.db_connection import get_db_connection_and_cursor
 
-
-# Initialize extensions
-# db = SQLAlchemy()
+# .env dosyasını yükle
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)
 
     # Load configuration from .env
-    app.secret_key = os.getenv('SECRET_KEY') # Set secret key for session management
-    app.permanent_session_lifetime = timedelta(minutes=30) # Set session lifetime to 30 minutes
+    app.secret_key = os.getenv('SECRET_KEY')  # .env dosyasından SECRET_KEY alınıyor
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # Veritabanı bağlantısı
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.permanent_session_lifetime = timedelta(minutes=int(os.getenv('SESSION_LIFETIME', 30)))  # Varsayılan 30 dk
+
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auth_bp.login'  # Giriş sayfası rotası
@@ -33,6 +36,7 @@ def create_app():
             return User(user_data)
         else:
             return None
+
     # Blueprint'lerinizi kaydedin
     from app.routes.routes import main_bp
     from app.routes.auth import auth_bp
