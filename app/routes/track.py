@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.utils.db_connection import get_db_connection_and_cursor
+from flask_login import login_required, current_user
 import json
 import datetime
 
@@ -47,6 +48,7 @@ def track_detail(track_id, artist_id):
     # Sorgudaki LEFT JOINler ile tüm verileri olan datalara erişiyoruz ama yine de tedbir olarak aşağıdaki gibi
     # koşullar koyarak verinin olmadığı durumda hata almamak için null atıyoruz. 
     track_dict = {
+        "id": track_data['track_id'],
         "title": track_data['title'],
         "mix": track_data['mix'] if track_data['mix'] else "Original Mix",
         "artists": artists,
@@ -59,3 +61,39 @@ def track_detail(track_id, artist_id):
     }
 
     return render_template('track.html', track=track_dict)
+
+@track__bp.route('/add_favorite', methods=['POST'])
+@login_required
+def add_favorite():
+    # Kullanıcıdan gelen track_id verisini al
+    track_id = request.form.get('track_id')
+    
+    if not track_id:
+        flash('Geçerli bir şarkı seçilmedi.', 'danger')
+        return redirect(url_for('main_bp.home'))  # Kullanıcıyı ana sayfaya yönlendir
+
+    try:
+        with get_db_connection_and_cursor() as (conn, cursor):
+            # Kullanıcının aynı şarkıyı daha önce ekleyip eklemediğini kontrol et
+            cursor.execute("""
+                SELECT * FROM favorite_tracks WHERE user_id = %s AND track_id = %s
+            """, (current_user.id, track_id))
+            
+            existing_favorite = cursor.fetchone()
+            if existing_favorite:
+                flash('Bu şarkı zaten favorilerde.', 'info')
+                return redirect(request.referrer or url_for('main_bp.home'))  # Kullanıcıyı önceki sayfaya döndür
+
+            # Şarkıyı favorilere ekle
+            cursor.execute("""
+                INSERT INTO favorite_tracks (user_id, track_id) VALUES (%s, %s)
+            """, (current_user.id, track_id))
+            conn.commit()
+            flash('Şarkı favorilere eklendi!', 'success')
+            return redirect(request.referrer or url_for('main_bp.home'))  # Kullanıcıyı önceki sayfaya döndür
+
+
+    except Exception as e:
+        flash(f'Favorilere eklerken bir hata oluştu: {str(e)}', 'danger')
+
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
