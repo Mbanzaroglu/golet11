@@ -7,7 +7,7 @@ main_bp = Blueprint('main_bp', __name__)
 @main_bp.route('/')
 def home():
     selected_page = "home"
-    return render_template('home.html', selected_page=selected_page)
+    return render_template('home.html', selected_page=selected_page, hide_navigation=True)
 
 @main_bp.route('/songs')
 def songs():

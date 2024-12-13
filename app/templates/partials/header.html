@@ -8,10 +8,10 @@
             </a>
         {% else %}
             <!-- Log in and Sign up Buttons -->
-            <a href="{{ url_for('auth_bp.login') }}">
+            <a href="{{ url_for('auth_bp.login', next=request.url) }}">
                 <button type="button" class="btn btn-primary btn-lg" style="padding: 5px; width: 120px; background-color: #333;">Log in</button>
             </a>
-            <a href="{{ url_for('auth_bp.register') }}">
+            <a href="{{ url_for('auth_bp.register', next=request.url) }}">
                 <button type="button" class="btn btn-secondary btn-lg" style="padding: 5px; width: 120px;">Sign up</button>
             </a>
         {% endif %}
