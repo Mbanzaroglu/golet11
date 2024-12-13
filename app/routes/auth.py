@@ -29,8 +29,9 @@ def login():
             user = User(user_data)
             login_user(user)
             flash('Giriş başarılı!', 'success')
-            next_page = request.args.get('next')
-            return redirect(next_page or url_for('main_bp.home'))
+            next_page = request.args.get('next') # Kullanamadım bunu çünkü çalışmadı ama bir ara yapmamız lazım.
+            # Hangi ekrandan login olma tuşuna bastıysak, login olduktan sonra o ekrana bizi geri döndürmesi lazım.
+            return redirect(url_for('main_bp.songs')) # Şimdilik şarkılar ekranına döndürüyor.
         else:
             flash('Kullanıcı adı veya şifre hatalı.', 'danger')
 
