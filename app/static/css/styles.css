@@ -10,7 +10,9 @@
 /* navbar cssleri */ 
 
 /* Navbar genel ayarları */
-
+.navbar {
+    margin-bottom: 35px; /* Alt tarafa boşluk ekler */
+}
 /*Footer cssleri */
 
 /* Footer genel stilleri */
