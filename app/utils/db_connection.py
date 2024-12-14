@@ -9,7 +9,6 @@ def connect_db():
             user="root",
             password="",
             database="bp_database",
-            ssl_disabled=True  # SSL'i devre dışı bırak
         )
         return conn
     except mysql.connector.Error as err:
