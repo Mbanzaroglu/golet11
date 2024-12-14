@@ -7,27 +7,45 @@ fav_bp = Blueprint('fav_bp', __name__, url_prefix='/favorites')
 @fav_bp.route('/songs')
 @login_required
 def favorite_songs():
-    selected_page = 'favorites_songs'
+    selected_page = 'songs'
     with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
             bp_track.track_id,
-            bp_track.title,
-            bp_artist.artist_name
+            bp_track.title AS song_title,
+            MIN(bp_artist.artist_name) AS artist_name,  -- İlk sanatçıyı seçiyoruz
+            MIN(artist_track.artist_id) AS artist_id   -- İlgili artist_id'yi seçiyoruz
         FROM
-            favorite_tracks
+            favorite_tracks as ft
         INNER JOIN
-            bp_track ON favorite_tracks.track_id = bp_track.track_id
+            bp_track ON ft.track_id = bp_track.track_id
         INNER JOIN
             artist_track ON bp_track.track_id = artist_track.track_id
         INNER JOIN
             bp_artist ON artist_track.artist_id = bp_artist.artist_id
         WHERE
-            favorite_tracks.user_id = %s
+            ft.user_id = %(user_id)s
+        GROUP BY
+            bp_track.track_id, bp_track.title;
         """
-        cursor.execute(query, (current_user.id,))
-        favorite_songs_list = cursor.fetchall()
-    return render_template('fav.html', selected_page=selected_page, songs=favorite_songs_list)
+        cursor.execute(query, {'user_id': current_user.id})
+        track_rows = cursor.fetchall()
+
+    if not track_rows:
+        return "No tracks found for this user.", 404
+
+    tracks = []
+    for row in track_rows:
+        tracks.append({
+            "track_id": row['track_id'],
+            "title": row['song_title'],
+            "artist_name": row['artist_name'],
+            "artist_id": row['artist_id']
+        })
+
+    return render_template('fav.html', tracks=tracks, selected_page=selected_page)
+
+
 
 @fav_bp.route('/albums')
 @login_required
