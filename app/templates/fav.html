@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin: 0px;">
+    {% if selected_page == 'songs' %}
+    
+        {% for track in tracks %}
+            <div class="card" style="width: 18rem;">
+                <!-- Placeholder image -->
+                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
+                <div class="card-body">
+                    <!-- Dynamic song title -->
+                    <h4 class="card-title">{{ track.title }}</h4>
+                    <!-- Dynamic artist name -->
+                    <p class="card-text">{{ track.artist_name }}</p>
+                    <!-- Button to view details or listen to the song -->
+                    <a href="{{ url_for('track_bp.track_detail', track_id=track.track_id, artist_id=track.artist_id) }}" class="btn btn-primary align-self-start">Details</a>            
+                </div>
+            </div>
+        {% endfor %}
+
+    {% elif selected_page == 'artists' %}
+        
+    {% elif selected_page == 'releases' %}
+
+    {% else %}
+      <p>Sayfa bulunamadı.</p>
+    {% endif %}
+
+</div>
+{% endblock %}
