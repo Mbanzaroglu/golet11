@@ -16,22 +16,12 @@ def songs():
     # SQL query to get songs with their artists
     with get_db_connection_and_cursor() as (conn, cursor):
         # Önce toplam kayıt sayısını al
-        cursor.execute("SELECT COUNT(*) as count FROM bp_track")
-        total_records = cursor.fetchone()['count']
-        
-        # Rastgele 50 ID oluştur
-        # Bunu yapmam sebebimiz Rastgele 50 şarkı seçmek ama order by rand yapınca çok uzun sürüyor.
-        # O yüzden en mantıklısı bu şekilde yapmak
-        import random
-        random_ids = random.sample(range(1, total_records + 1), min(100, total_records))
-        
-        # Bu ID'leri kullanarak sorguyu çalıştır
         query = """
         SELECT
             bp_track.track_id,
             bp_track.title AS song_title,
-            MIN(bp_artist.artist_name) AS artist_name,  -- İlk sanatçıyı seçiyoruz
-            MIN(artist_track.artist_id) AS artist_id   -- İlgili artist_id'yi seçiyoruz
+            GROUP_CONCAT(DISTINCT bp_artist.artist_name ORDER BY bp_artist.artist_name SEPARATOR ', ') AS artist_names,
+            GROUP_CONCAT(DISTINCT bp_artist.artist_id SEPARATOR ', ') AS artist_ids
         FROM
             bp_track
         INNER JOIN
@@ -42,12 +32,16 @@ def songs():
             bp_release ON bp_track.release_id = bp_release.release_id
         INNER JOIN 
             bp_genre ON bp_track.genre_id = bp_genre.genre_id
-        WHERE bp_track.track_id IN ({})
-        GROUP BY bp_track.track_id, bp_track.title
-        """.format(','.join(map(str, random_ids)))
+        GROUP BY
+            bp_track.track_id, bp_track.title
+        ORDER BY
+            bp_track.track_id ASC
+        LIMIT 50
+        """
         cursor.execute(query)
-        songs_list = cursor.fetchall()  # Fetch all results
-    # Render template with fetched songs
+        songs_list = cursor.fetchall()
+        
+    # Render 
     return render_template('home.html', selected_page=selected_page, songs=songs_list)
 
 
