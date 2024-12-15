@@ -9,7 +9,7 @@ def connect_db():
             port=3306,
             user="root",
             password="",
-            database="bp_database",
+            database="beatport_db",
             ssl_disabled=True  # SSL'i devre dışı bırak
         )
         return conn

@@ -8,7 +8,7 @@ def connect_db():
             port=3306,
             user="root",
             password="",
-            database="bp_database",
+            database="beatport_db",
         )
         return conn
     except mysql.connector.Error as err:
