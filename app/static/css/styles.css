@@ -309,3 +309,21 @@ body, html {
 .carousel-control-prev, .carousel-control-next {
   width: 5%;
 }
+
+/* Pop-up alert stilleri */
+.alert {
+  /* Normal durumda opak görünmesi */
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+}
+
+.alert.show {
+  /* Sayfa ilk açıldığında hızlıca görünsün diye .show opaklık 1 */
+  opacity: 1;
+}
+
+.alert.fade {
+  /* show sınıfı kalkıp fade eklenince opaklık 0 olur ve 2 saniyede kaybolur */
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
