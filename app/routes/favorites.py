@@ -70,7 +70,7 @@ def favorite_albums():
         """
         cursor.execute(query, (current_user.id,))
         favorite_albums_list = cursor.fetchall()
-
+        
     return render_template('fav.html', selected_page=selected_page, albums=favorite_albums_list)
 
 @fav_bp.route('/artists')

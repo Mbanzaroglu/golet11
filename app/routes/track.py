@@ -4,9 +4,9 @@ from flask_login import login_required, current_user
 import json
 import datetime
 
-track__bp = Blueprint('track_bp', __name__, url_prefix='/track')
+track_bp = Blueprint('track_bp', __name__, url_prefix='/track')
 
-@track__bp.route('/details/<int:track_id>/<int:artist_id>')
+@track_bp.route('/details/<int:track_id>/<int:artist_id>')
 def track_detail(track_id, artist_id):
     with get_db_connection_and_cursor() as (conn, cursor):
         query = """
@@ -36,6 +36,14 @@ def track_detail(track_id, artist_id):
         """
         cursor.execute(query, {'track_id': track_id, 'artist_id': artist_id})
         track_rows = cursor.fetchall()  # Tüm sonuçları al
+        if current_user.is_authenticated:
+            # Kullanıcının favorilerinde bu şarkının olup olmadığını kontrol et
+            cursor.execute("""
+                SELECT * FROM favorite_tracks WHERE user_id = %s AND track_id = %s
+            """, (current_user.id, track_id))
+            is_favorite = cursor.fetchone() is not None
+        else:
+            is_favorite = False
 
     if not track_rows:
         # Eğer sonuç yoksa, kullanıcıya 404 dönebilirsiniz
@@ -43,6 +51,9 @@ def track_detail(track_id, artist_id):
 
     # İlk satırdaki genel verileri al
     track_data = track_rows[0]
+
+    # Kullanıcının oturum açıp açmadığını kontrol et
+        
 
     artists = [track_data['artist_name']] if track_data['artist_name'] else []
     # Sorgudaki LEFT JOINler ile tüm verileri olan datalara erişiyoruz ama yine de tedbir olarak aşağıdaki gibi
@@ -60,9 +71,9 @@ def track_detail(track_id, artist_id):
         "release_title": track_data['release_title'] if track_data['release_title'] else "Unknown"
     }
 
-    return render_template('track.html', track=track_dict)
+    return render_template('track.html', track=track_dict, is_favorite=is_favorite)
 
-@track__bp.route('/add_favorite', methods=['POST'])
+@track_bp.route('/add_favorite', methods=['POST'])
 @login_required
 def add_favorite():
     # Kullanıcıdan gelen track_id verisini al
@@ -97,3 +108,34 @@ def add_favorite():
         flash(f'Favorilere eklerken bir hata oluştu: {str(e)}', 'danger')
 
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+@track_bp.route('/remove_favorite', methods=['POST'])
+@login_required
+def remove_favorite():
+    track_id = request.form.get('track_id')
+    
+    if not track_id:
+        flash('Geçerli bir şarkı seçilmedi.', 'danger')
+        return redirect(url_for('main_bp.home'))
+
+    try:
+        with get_db_connection_and_cursor() as (conn, cursor):
+            cursor.execute("""
+                SELECT * FROM favorite_tracks WHERE user_id = %s AND track_id = %s
+            """, (current_user.id, track_id))
+            
+            existing_favorite = cursor.fetchone()
+            if not existing_favorite:
+                flash('Bu şarkı favorilerde bulunamadı.', 'info')
+                return redirect(request.referrer or url_for('main_bp.home'))
+
+            cursor.execute("""
+                DELETE FROM favorite_tracks WHERE user_id = %s AND track_id = %s
+            """, (current_user.id, track_id))
+            conn.commit()
+            flash('Şarkı favorilerden kaldırıldı!', 'success')
+            return redirect(request.referrer or url_for('main_bp.home'))
+
+    except Exception as e:
+        flash(f'Favorilerden kaldırırken bir hata oluştu: {str(e)}', 'danger')
+        return redirect(url_for('main_bp.home'))
