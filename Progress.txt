@@ -9,6 +9,7 @@ Muhammet Banzaroğlu
 -Created initial SQL connection which checks the initial tables and migrations
 -Created db_connection file to connect database within the code with @contextmanager
 -Created the migration tables (change_column.sql, create_user_tables.sql, delete_dates.sql, delete_media.sql)
+-Created base.html, fav.html, home.html, login.html, track.html and added the functions mentioned above.
 Ahmet Akın
 -
 -
