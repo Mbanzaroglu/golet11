@@ -1,0 +1,19 @@
+Muhammet Banzaroğlu 
+-Arranged the scaffold according to the Flask architecture
+-Created the beatport tables 
+-Created the User-Related tables
+-Added Login functions and User Models and related blueprint functions (auth.py, fav.py)
+-Created the Songs and Favorite Songs pages and related blueprint function (track.py, routes.py)
+-Added Flash pop-up messages 
+-Added Login and Sign-up buttons and screens 
+-Created initial SQL connection which checks the initial tables and migrations
+-Created db_connection file to connect database within the code with @contextmanager
+-Created the migration tables (change_column.sql, create_user_tables.sql, delete_dates.sql, delete_media.sql)
+Ahmet Akın
+-
+-
+-
+Umut Önal
+-
+-
+-
