@@ -13,11 +13,28 @@
         {% include 'partials/navbar.html' %}
     {% endif %}
     
+    
+
     <main>
+        <!-- Flash Mesajları Pop-up -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-message-container position-fixed top-50 start-50 translate-middle" style="z-index: 1050;">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ 'danger' if category == 'error' else category }} fade show text-center shadow-lg" role="alert" style="min-width: 300px;">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        
         {% block content %}
         <!-- Content will be injected here -->
         {% endblock %}
     </main>
+
+    
     
     {% if not hide_navigation %}
         {% include 'partials/footer.html' %}
