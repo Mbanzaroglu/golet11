@@ -7,6 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
             message.classList.add('fade');
             // 2 saniyelik transition bitince DOM’dan tamamen kaldırılıyor
             setTimeout(() => message.remove(), 2000);
-        }, 3000);
+        }, 300);
     });
 });
