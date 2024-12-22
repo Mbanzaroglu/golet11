@@ -26,10 +26,15 @@
                     </ul>
                 </li> 
             </ul>
+            
             <form class="d-flex" role="search" method="GET" action="{{ url_for('main_bp.search') }}">
+                <!-- Arama kelimesi için input -->
                 <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search">
+                <!-- Hangi sayfada arama yapacağız? (songs, artists, albums) -->
+                <input type="hidden" name="selected_page" value="{{ selected_page }}">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+
         </div>
     </div>
 </nav>

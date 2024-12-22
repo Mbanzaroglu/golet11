@@ -63,20 +63,44 @@
     </div>
 
     {% elif selected_page == 'songs' %}
-        {% for song in songs %}
-        <div class="card" style="width: 18rem;">
-            <!-- Placeholder image -->
-            <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
-            <div class="card-body">
-                <!-- Dynamic song title -->
-                <h4 class="card-title">{{ song.song_title }}</h4>
-                <!-- Dynamic artist name -->
-                <p class="card-text">{{ song.artist_names }}</p>
-                <!-- Button to view details or listen to the song -->
-                <a href="{{ url_for('track_bp.track_detail', track_id=song.track_id, artist_id=song.artist_ids.split(',')[0]) }}" class="btn btn-primary align-self-start">Details</a>            
-            </div>
+            <!-- Arama yapıldıysa (query doluysa) ekrana üstte solda, yatay olarak kaplayan bir blokta başlığı gösteriyoruz -->
+        {% if query %}
+        <div class="container-fluid py-2 mb-1 ps-6" style="background-color: transparent; padding-left: 80px;">
+            <!-- text-primary ile mavi, mb-0 ile alt boşluk kaldırdık -->
+            <h2 class="text-primary mb-0">Arama Sonuçları : {{ query }}</h2>
         </div>
-        {% endfor %}
+        
+        
+        
+        {% endif %}
+
+        <!-- Arama sonucu döndüyse o sonuçları normal 'songs' listesine atıyoruz -->
+        {% if search_results %}
+            {% set songs = search_results %}
+        {% endif %}
+
+        <!-- Şarkı listesi varsa kartları döngüye sokuyoruz. Kartın yapısını aynen koruyoruz. -->
+        {% if songs and songs|length > 0 %}
+            {% for song in songs %}
+            <div class="card" style="width: 18rem;">
+                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
+                <div class="card-body">
+                    <h4 class="card-title">{{ song.song_title }}</h4>
+                    <p class="card-text">{{ song.artist_names }}</p>
+                    <a 
+                    href="{{ url_for('track_bp.track_detail', track_id=song.track_id, artist_id=song.artist_ids.split(',')[0]) }}" 
+                    class="btn btn-primary align-self-start"
+                    >
+                    Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <!-- Eğer hiçbir sonuç yoksa kullanıcıya basit bir uyarı mesajı gösteriyoruz -->
+            <p class="text-danger mt-3">Aradığınız kriterlere uygun bir sonuç bulunamadı.</p>
+        {% endif %}
+
     {% elif selected_page == 'albums' %}
 
     {% elif selected_page == 'artists' %}
