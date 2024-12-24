@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Album Page{% endblock %}
+
+{% block content %}
+<h1 class="header-title mb-5">Albüm Detayları</h1>
+<div class="container">
+    <div class="album-header row">
+        <div class="row">
+            <div class="col-md-4 d-flex justify-content-center mb-4 mb-md-0">
+                <!-- Kapak görseli -->
+                <img src="https://via.placeholder.com/300" alt="Album Artwork" class="album-artwork img-fluid">
+            </div>
+            <div class="col-md-8 album-info">
+                <!-- Başlık ve sanatçı bilgileri -->
+                <h1 class="album-title">{{ album.title }}</h1>
+                <div class="album-artists mb-3">{{ album.artists | join(', ') }}</div>
+
+                <form 
+                action="{{ url_for('album_bp.add_favorite_album') if not is_favorite else url_for('album_bp.remove_favorite') }}" 
+                method="post" 
+                class="d-inline">
+                <input type="hidden" name="album_id" value="{{ album.id }}">
+                <button type="submit" class="play-button">
+                    <span class="play-icon">{{ '➕' if not is_favorite else '❌' }}</span>
+                    {{ 'Favorilere Ekle' if not is_favorite else 'Favorilerden Kaldır' }}
+                </button>
+                </form>
+
+                <!-- Metadata alanları -->
+                <div class="album-metadata mt-4">
+                    <div class="metadata-item">
+                        <div class="metadata-label">Release Date</div>
+                        <div class="metadata-value">{{ album.release_date }}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Album Title</div>
+                        <div class="metadata-value">{{ album.release_title }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
