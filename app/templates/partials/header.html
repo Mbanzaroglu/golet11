@@ -1,3 +1,19 @@
-<header>
-    <h1>Welcome to golet 11</h1>
+<header style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+    <h1 class="header-title" style="margin: 0 auto;">Beatport Music</h1>
+    <div style="display: flex; gap: 20px; margin-right: 13px">
+        {% if current_user.is_authenticated %}
+            <!-- Logout Button -->
+            <a href="{{ url_for('auth_bp.logout') }}">
+                <button type="button" class="btn btn-danger btn-lg" style="padding: 5px; width: 120px;">Log out</button>
+            </a>
+        {% else %}
+            <!-- Log in and Sign up Buttons -->
+            <a href="{{ url_for('auth_bp.login', next=request.url) }}">
+                <button type="button" class="btn btn-primary btn-lg" style="padding: 5px; width: 120px; background-color: #333;">Log in</button>
+            </a>
+            <a href="{{ url_for('auth_bp.register', next=request.url) }}">
+                <button type="button" class="btn btn-secondary btn-lg" style="padding: 5px; width: 120px;">Sign up</button>
+            </a>
+        {% endif %}
+    </div>
 </header>

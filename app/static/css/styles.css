@@ -1,0 +1,328 @@
+.header-title { /* header.html başlık kısmı */
+    text-align: center; /* Metni ortalar */
+    font-family: 'Arial', sans-serif; /* Yazı tipi ve yedek yazı tipi */
+    font-size: 2.5rem; /* Yazı boyutu */
+    color: #333; /* Yazı rengi (koyu gri) */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Yazı gölgesi */
+    margin: 20px 0; /* Üst ve alt boşluk */
+}
+
+/* navbar cssleri */ 
+
+/* Navbar genel ayarları */
+.navbar {
+    margin-bottom: 35px; /* Alt tarafa boşluk ekler */
+}
+/*Footer cssleri */
+
+/* Footer genel stilleri */
+footer {
+    background-color: #333; /* Koyu bir arka plan rengi */
+    color: white; /* Yazı rengi */
+    text-align: center; /* Ortaya hizalama */
+    padding: 15px 0; /* Yukarı ve aşağı boşluk */
+    font-size: 14px; /* Yazı boyutu */
+    position: fixed; /* Dinamik yerleşim */
+    bottom: 0; /* Alt hizalama */
+    width: 100%; /* Sayfanın tamamını kapla */
+    /* position: fixed; Sabit konumlandırma */
+}
+
+/* Footer'daki metin */
+footer p {
+    margin: 0; /* Varsayılan boşlukları kaldır */
+}
+
+/* Hover efekti (isteğe bağlı) */
+footer p:hover {
+    color: #f0f0f0; /* Hafif bir gri tonu */
+    text-decoration: underline; /* Alt çizgi ekle */
+}
+
+/* Track.html sayfasının stilleri */
+:root {
+    --primary-color: #0077ff;
+    --background-dark: #121212;
+    --text-light: #ffffff;
+    --text-secondary: #b3b3b3;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+}
+main {
+    margin-bottom: auto;
+}   
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    margin-bottom: 65px;
+}
+
+.track-header {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.track-artwork {
+    width: 100%;
+    height: 300px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+}
+
+.track-info {
+    flex: 1;
+}
+
+.track-title {
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.track-artists {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.track-metadata {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.metadata-item {
+    background-color: #f0f0f0; /* Gri arka plan rengi */
+    border-radius: 12px; /* Border radius */
+    padding: 10px; /* İçerik dolgusu */
+    margin-bottom: 10px; /* Alt boşluk */
+}
+
+.metadata-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.metadata-value {
+    font-size: 1.125rem;
+}
+
+.play-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 24px;
+    font-size: 1.125rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+}
+
+.play-button:hover {
+    background-color: #0066dd;
+}
+
+.remixers-section {
+    margin-top: 2rem;
+}
+
+.remixers-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.remixer-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.remixer-tag {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 16px;
+    font-size: 0.875rem;
+}
+
+/* Home.html sayfasının stilleri */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+  }
+  
+  .welcome-screen {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #e0f7ff, #ffffff);
+    overflow: hidden;
+  }
+  
+  .animated-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2xl);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease-out;
+  }
+  
+  .purple {
+    background-color: rgba(159, 121, 242, 0.5);
+    width: 8rem;
+    height: 8rem;
+    left: 10%;
+    top: 20%;
+  }
+  
+  .blue {
+    background-color: rgba(121, 194, 242, 0.5);
+    width: 10rem;
+    height: 10rem;
+    right: 15%;
+    top: 30%;
+  }
+  
+  .pink {
+    background-color: rgba(242, 121, 159, 0.5);
+    width: 9rem;
+    height: 9rem;
+    left: 20%;
+    bottom: 20%;
+  }
+  
+  .teal {
+    background-color: rgba(121, 242, 194, 0.5);
+    width: 7rem;
+    height: 7rem;
+    right: 25%;
+    bottom: 30%;
+  }
+  
+  .content {
+    z-index: 10;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease-out;
+  }
+  
+  .description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease-out 0.2s;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease-out 0.4s;
+  }
+  
+  .btn {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-outline {
+    background-color: transparent;
+    border: 2px solid #007bff;
+    color: #007bff;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+  
+
+.carousel {
+  height: 100vh;
+}
+.carousel-item {
+  height: 100%;
+  position: relative;
+}
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.carousel-caption {
+  position: absolute;
+  right: 0% !important;
+  bottom: 10rem !important;
+  background: rgba(0,0,0,0.5);
+  padding: 10px 40px !important;
+  border-radius: 10px;
+  max-width: 70%;
+  margin: 0 auto;
+}
+.carousel-caption h2 {
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  font-weight: bold;
+}
+.carousel-caption .lead {
+  color: #f0f0f0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+.carousel-control-prev, .carousel-control-next {
+  width: 5%;
+}
+
+/* Pop-up alert stilleri */
+.alert {
+  /* Normal durumda opak görünmesi */
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+}
+
+.alert.show {
+  /* Sayfa ilk açıldığında hızlıca görünsün diye .show opaklık 1 */
+  opacity: 1;
+}
+
+.alert.fade {
+  /* show sınıfı kalkıp fade eklenince opaklık 0 olur ve 2 saniyede kaybolur */
+  transition: opacity 2s ease-in-out;
+}

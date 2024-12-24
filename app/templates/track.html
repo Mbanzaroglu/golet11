@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Track Page{% endblock %}
+
+{% block content %}
+<h1 class="header-title mb-5">Parça Detayları</h1>
+<div class="container" >
+    <div class="track-header row">
+        <div class="row"> 
+            <div class="col-md-4 d-flex justify-content-center mb-4 mb-md-0">
+                <!-- Kapak görseli -->
+                <img src="https://via.placeholder.com/300" alt="Track Artwork" class="track-artwork img-fluid">        
+            </div>
+            <div class="col-md-8 track-info">
+                <!-- Başlık ve sanatçı bilgileri -->
+                <h1 class="track-title">{{ track.title }} ({{ track.mix }})</h1>
+                <div class="track-artists mb-3">{{ track.artists | join(', ') }}</div>
+
+                <form 
+                action="{{ url_for('track_bp.add_favorite') if not is_favorite else url_for('track_bp.remove_favorite') }}" 
+                method="post" 
+                class="d-inline">
+                <input type="hidden" name="track_id" value="{{ track.id }}">
+                <button type="submit" class="play-button">
+                    <span class="play-icon">{{ '➕' if not is_favorite else '❌' }}</span>
+                    {{ 'Favorilere Ekle' if not is_favorite else 'Favorilerden Kaldır' }}
+                </button>
+                </form>
+            
+
+                <!-- Metadata alanları -->
+                <div class="track-metadata mt-4">
+                    <div class="metadata-item">
+                        <div class="metadata-label">Release Date</div>
+                        <div class="metadata-value">{{ track.release_date }}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Album Name</div>
+                        <div class="metadata-value">{{ track.release_title }}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Genre</div>
+                        <div class="metadata-value">{{ track.genre_name }}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">BPM</div>
+                        <div class="metadata-value">{{ track.bpm }}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Duration</div>
+                        <div class="metadata-value">{{ track.duration }}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Mix</div>
+                        <div class="metadata-value">{{ track.mix }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
