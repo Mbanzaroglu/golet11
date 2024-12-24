@@ -3,24 +3,104 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-<div style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin: 25px 0;">
+<div style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin: 0px;">
     {% if selected_page == 'home' %}
-        
-    {% elif selected_page == 'songs' %}
-        {% for song in songs %}
-        <div class="card" style="width: 18rem;">
-            <!-- Placeholder image -->
-            <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
-            <div class="card-body">
-                <!-- Dynamic song title -->
-                <h4 class="card-title">{{ song.song_title }}</h4>
-                <!-- Dynamic artist name -->
-                <p class="card-text">{{ song.artist_name }}</p>
-                <!-- Button to view details or listen to the song -->
-                <a href="{{ url_for('track_bp.track_detail', track_id=song.track_id, artist_id=song.artist_id) }}" class="btn btn-primary align-self-start">Details</a>            
-            </div>
+    <div class="container-fluid p-0">
+        <div id="marketingCarousel" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="{{ url_for('static', filename='images/song.jpg') }}" alt="Popüler Şarkılar">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        <h2>Popüler Şarkılar</h2>
+                        <p class="lead">Tüm favori şarkılarınızı bir arada bulabilirsiniz. Beatport ile müzik zevkinizi zirveye taşıyın!</p>
+                        <a href="{{ url_for('main_bp.songs') }}" class="btn btn-primary mt-3">Şarkıları Keşfet</a>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='images/album.jpg') }}" alt="Öne Çıkan Albümler">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        <h2>Öne Çıkan Albümler</h2>
+                        <p class="lead">Müzik dünyasının en iyi albümleri bir tık uzağınızda. Şimdi keşfedin!</p>
+                        <a href="{{ url_for('main_bp.albums') }}" class="btn btn-primary mt-3">Albümleri Keşfet</a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='images/artist.jpg') }}" alt="Sanatçıları Keşfedin">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        <h2>Sanatçıları Keşfedin</h2>
+                        <p class="lead">Sevdiğiniz sanatçıların en yeni şarkılarını dinleyin ve müzik dünyasındaki keşfinizi genişletin.</p>
+                        <a href="{{ url_for('main_bp.artists') }}" class="btn btn-primary mt-3">Sanatçıları Keşfet</a>
+                    </div>
+                </div>
+
+                {% if not current_user.is_authenticated %}
+                <!-- Slide 4 -->
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='images/login.jpg') }}" alt="Favori Listenizi Oluşturun">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        <h2>Favori Listenizi Oluşturun</h2>
+                        <p class="lead">Favori şarkılarınızı ve albümlerinizi kaydedin. Kendi özel müzik arşivinizi oluşturmak için üye olun!</p>
+                        <a href="{{ url_for('auth_bp.register') }}" class="btn btn-success mt-3">Hemen Kayıt Ol</a>
+                    </div>
+                </div>
+                {% endif %}
+
+            <!-- Slider Navigation -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#marketingCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Önceki</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#marketingCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Sonraki</span>
+            </button>
         </div>
-        {% endfor %}
+    </div>
+
+    {% elif selected_page == 'songs' %}
+            <!-- Arama yapıldıysa (query doluysa) ekrana üstte solda, yatay olarak kaplayan bir blokta başlığı gösteriyoruz -->
+        {% if query %}
+        <div class="container-fluid py-2 mb-1 ps-6" style="background-color: transparent; padding-left: 80px;">
+            <!-- text-primary ile mavi, mb-0 ile alt boşluk kaldırdık -->
+            <h2 class="text-primary mb-0">Arama Sonuçları : {{ query }}</h2>
+        </div>
+        
+        
+        
+        {% endif %}
+
+        <!-- Arama sonucu döndüyse o sonuçları normal 'songs' listesine atıyoruz -->
+        {% if search_results %}
+            {% set songs = search_results %}
+        {% endif %}
+
+        <!-- Şarkı listesi varsa kartları döngüye sokuyoruz. Kartın yapısını aynen koruyoruz. -->
+        {% if songs and songs|length > 0 %}
+            {% for song in songs %}
+            <div class="card" style="width: 18rem;">
+                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
+                <div class="card-body">
+                    <h4 class="card-title">{{ song.song_title }}</h4>
+                    <p class="card-text">{{ song.artist_names }}</p>
+                    <a 
+                    href="{{ url_for('track_bp.track_detail', track_id=song.track_id, artist_id=song.artist_ids.split(',')[0]) }}" 
+                    class="btn btn-primary align-self-start"
+                    >
+                    Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <!-- Eğer hiçbir sonuç yoksa kullanıcıya basit bir uyarı mesajı gösteriyoruz -->
+            <p class="text-danger mt-3">Aradığınız kriterlere uygun bir sonuç bulunamadı.</p>
+        {% endif %}
+
     {% elif selected_page == 'albums' %}
 
     {% elif selected_page == 'artists' %}

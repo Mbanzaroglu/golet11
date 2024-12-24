@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1 class="header-title mb-5">Parça Detayları</h1>
-<div class="container">
+<div class="container" >
     <div class="track-header row">
         <div class="row"> 
             <div class="col-md-4 d-flex justify-content-center mb-4 mb-md-0">
@@ -15,9 +15,18 @@
                 <!-- Başlık ve sanatçı bilgileri -->
                 <h1 class="track-title">{{ track.title }} ({{ track.mix }})</h1>
                 <div class="track-artists mb-3">{{ track.artists | join(', ') }}</div>
-                <button class="play-button">
-                    <span class="play-icon">▶</span> Favorilere Ekle
+
+                <form 
+                action="{{ url_for('track_bp.add_favorite') if not is_favorite else url_for('track_bp.remove_favorite') }}" 
+                method="post" 
+                class="d-inline">
+                <input type="hidden" name="track_id" value="{{ track.id }}">
+                <button type="submit" class="play-button">
+                    <span class="play-icon">{{ '➕' if not is_favorite else '❌' }}</span>
+                    {{ 'Favorilere Ekle' if not is_favorite else 'Favorilerden Kaldır' }}
                 </button>
+                </form>
+            
 
                 <!-- Metadata alanları -->
                 <div class="track-metadata mt-4">
