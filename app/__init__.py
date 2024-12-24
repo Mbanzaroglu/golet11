@@ -42,10 +42,12 @@ def create_app():
     from app.routes.auth import auth_bp
     from app.routes.favorites import fav_bp
     from app.routes.track import track_bp
+    from app.routes.albums import album_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(fav_bp, url_prefix='/favorites')
     app.register_blueprint(track_bp, url_prefix='/track') 
+    app.register_blueprint(album_bp, url_prefix='/albums') 
 
     return app
