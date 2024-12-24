@@ -4,3 +4,5 @@ __pycache__/
 .env
 db_env/
 db_initialized
+mysql_connector.py
+db_connection.py
