@@ -9,62 +9,71 @@ album_bp = Blueprint('album_bp', __name__, url_prefix='/albums')
 @album_bp.route('/details/<int:release_id>/<int:artist_id>')
 def album_detail(release_id, artist_id):
     with get_db_connection_and_cursor() as (conn, cursor):
+        # Albüm detaylarını ve şarkıları çeken sorgu
         query = """
         SELECT
             br.release_id,
             br.release_title,
             br.release_date,
             br.release_title,
-            ba.artist_name
+            ba.artist_name,
+            bt.title,
+            bt.track_id
         FROM
             bp_release br
         LEFT JOIN
             artist_release ar ON br.release_id = ar.release_id
         LEFT JOIN
             bp_artist ba ON ar.artist_id = ba.artist_id
+        LEFT JOIN
+            bp_track bt ON br.release_id = bt.release_id
         WHERE
             br.release_id = %(release_id)s AND
             ba.artist_id = %(artist_id)s
+        ORDER BY
+            bt.track_id
         """
         cursor.execute(query, {'release_id': release_id, 'artist_id': artist_id})
-        album_rows = cursor.fetchall()  # Tüm sonuçları al
-        if current_user.is_authenticated:
-            # Kullanıcının favorilerinde bu şarkının olup olmadığını kontrol et
-            cursor.execute("""
-                SELECT * FROM favorite_albums WHERE user_id = %s AND album_id = %s
-            """, (current_user.id, release_id))
-            is_favorite = cursor.fetchone() is not None
-        else:
-            is_favorite = False
+        album_rows = cursor.fetchall()
 
-    if not album_rows:
-        # Eğer sonuç yoksa, kullanıcıya 404 dönebilirsiniz
-        return "Release not found", 404
+        if not album_rows:
+            return "Release not found", 404
 
-    # İlk satırdaki genel verileri al
-    release_data = album_rows[0]
+        # Albüm detaylarını ve şarkıları düzenleyin
+        release_data = album_rows[0]
+        tracks = [
+            {
+                "title": row['title'],
+                "number": row['track_id']
+            }
+            for row in album_rows if row['title']
+        ]
 
-    # Kullanıcının oturum açıp açmadığını kontrol et
-        
+        release_dict = {
+            "id": release_data['release_id'],
+            "title": release_data['release_title'],
+            "artists": [release_data['artist_name']],
+            "release_date": release_data['release_date'].strftime('%Y-%m-%d') if release_data['release_date'] else "",
+            "release_title": release_data['release_title'] if release_data['release_title'] else "Unknown",
+            "tracks": tracks
+        }
 
-    artists = [release_data['artist_name']] if release_data['artist_name'] else []
-    # Sorgudaki LEFT JOINler ile tüm verileri olan datalara erişiyoruz ama yine de tedbir olarak aşağıdaki gibi
-    # koşullar koyarak verinin olmadığı durumda hata almamak için null atıyoruz. 
-    release_dict = {
-        "id": release_data['release_id'],
-        "title": release_data['release_title'],
-        "artists": artists,
-        "release_date": release_data['release_date'].strftime('%Y-%m-%d') if release_data['release_date'] else "",
-        "release_title": release_data['release_title'] if release_data['release_title'] else "Unknown"
-    }
+        cursor.execute("""
+            SELECT * FROM favorite_albums 
+            WHERE user_id = %s AND album_id = %s
+        """, (current_user.id, release_id))
+        is_favorite = cursor.fetchone() is not None
 
-    return render_template('album.html', album=release_dict, is_favorite=is_favorite)
+        return render_template('album.html', album=release_dict, is_favorite=is_favorite)
+
 @album_bp.route('/add_favorite_album', methods=['POST'])
 @login_required
 def add_favorite_album():
     # Kullanıcıdan gelen release_id verisini al
     release_id = request.form.get('release_id')
-    
+
+    print(f"Gönderilen album_id: {release_id}")
+
     if not release_id:
         flash('Geçerli bir albüm seçilmedi.', 'danger')
         return redirect(url_for('main_bp.home'))  # Kullanıcıyı ana sayfaya yönlendir
