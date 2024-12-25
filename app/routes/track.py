@@ -8,6 +8,7 @@ track_bp = Blueprint('track_bp', __name__, url_prefix='/track')
 
 @track_bp.route('/details/<int:track_id>/<int:artist_id>')
 def track_detail(track_id, artist_id):
+    index = request.args.get('index', default=0, type=int)
     with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
@@ -52,9 +53,6 @@ def track_detail(track_id, artist_id):
     # İlk satırdaki genel verileri al
     track_data = track_rows[0]
 
-    # Kullanıcının oturum açıp açmadığını kontrol et
-        
-
     artists = [track_data['artist_name']] if track_data['artist_name'] else []
     # Sorgudaki LEFT JOINler ile tüm verileri olan datalara erişiyoruz ama yine de tedbir olarak aşağıdaki gibi
     # koşullar koyarak verinin olmadığı durumda hata almamak için null atıyoruz. 
@@ -71,7 +69,7 @@ def track_detail(track_id, artist_id):
         "release_title": track_data['release_title'] if track_data['release_title'] else "Unknown"
     }
 
-    return render_template('track.html', track=track_dict, is_favorite=is_favorite)
+    return render_template('track.html', track=track_dict, is_favorite=is_favorite, index=index)
 
 @track_bp.route('/add_favorite', methods=['POST'])
 @login_required
