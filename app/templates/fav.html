@@ -24,7 +24,40 @@
     {% elif selected_page == 'artists' %}
         
     {% elif selected_page == 'releases' %}
-
+        <div class="container mt-5">
+            <h1 class="text-center mb-5">Favori Albümler</h1>
+        
+            <!-- Albümleri sıralamak için grid sistemi -->
+            <div class="row">
+                {% for album in albums %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <!-- Placeholder image -->
+                        <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Albüm Görseli">
+                        <div class="card-body text-center">
+                            <!-- Albüm adı -->
+                            <h4 class="card-title">{{ album.release_title }}</h4>
+                            <!-- Sanatçı adı -->
+                            <p class="card-text">{{ album.artist_name }}</p>
+        
+                            <!-- Albüm detaylarına git butonu -->
+                            <a href="{{ url_for('album_bp.album_detail', release_id=album.release_id, artist_id=album.artist_id) }}" class="btn btn-primary">
+                                Albümü Görüntüle
+                            </a>
+        
+                            <!-- Favorilerden kaldır butonu -->
+                            <form action="{{ url_for('album_bp.remove_favorite') }}" method="post" class="d-inline">
+                                <input type="hidden" name="release_id" value="{{ album.release_id }}">
+                                <button type="submit" class="btn btn-danger">
+                                    Favorilerden Kaldır
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     {% else %}
       <p>Sayfa bulunamadı.</p>
     {% endif %}
