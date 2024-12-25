@@ -104,6 +104,35 @@
     {% elif selected_page == 'albums' %}
 
     {% elif selected_page == 'artists' %}
+        
+    
+        {% if query %}
+        <div class="container-fluid py-2 mb-1 ps-6" style="background-color: transparent; padding-left: 80px;">
+            <!-- text-primary ile mavi, mb-0 ile alt boşluk kaldırdık -->
+            <h2 class="text-primary mb-0">Arama Sonuçları : {{ query }}</h2>
+        </div>
+        
+        {% endif %}
+
+        {% if search_results %}
+            {% set artists = search_results %}
+        {% endif %}
+        {% if artists and artists|length>0 %}
+            {% for artist in artists %}
+            <div class="card" style="width: 18rem;">
+                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
+                <div class="card-body">
+                    <h4 class="card-title">{{ artist.artist_name }}</h4>                    
+                    <a 
+                    href="{{ url_for('artist_bp.artist_detail', artist_id=artist.artist_id) }}" 
+                    class="btn btn-primary align-self-start"
+                    >
+                    Details
+                    </a>
+                </div>
+            </div>
+            {% endfor%}
+        {% endif %}
 
     {% else %}
       <p>Sayfa bulunamadı.</p>

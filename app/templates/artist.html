@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Artist Page{% endblock %}
+
+{% block content %}
+<div class="artist-page">
+    <!-- Artist Name at the Top -->
+    <h1 class="artist-name">{{ artist.name }}</h1>
+
+    <!-- Main Content Section -->
+    <div class="artist-details">
+        <!-- Artist Image on the Left -->
+        <div class="artist-image">
+            <img src="https://via.placeholder.com/300" 
+                 alt="{{ artist.name }}" />
+            <form 
+                 action="{{ url_for('artist_bp.add_favorite') if not is_favorite else url_for('artist_bp.remove_favorite') }}" 
+                 method="post" 
+                 class="favorite-form">
+                 <input type="hidden" name="artist_id" value="{{ artist.id }}">
+                 <button type="submit" class="play-button">
+                     <span class="play-icon">{{ '➕' if not is_favorite else '❌' }}</span>
+                     {{ 'Favorilere Ekle' if not is_favorite else 'Favorilerden Kaldır' }}
+                 </button>
+             </form>
+        </div>
+
+        <!-- Releases on the Right -->
+        <div class="artist-releases">
+            <h2>Releases</h2>
+            <ul>
+                {% for release in artist.releases %}
+                    <div class="artist-release">
+                        <li>
+                            <strong>{{ release.title }}</strong> - Released on: {{ release.date }}
+                        </li>
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Favorite Status -->
+    <div class="favorite-status">
+        {% if is_favorite %}
+            <p>This artist is in your favorites.</p>
+        {% else %}
+            <p>This artist is not in your favorites.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
