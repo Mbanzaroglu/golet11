@@ -60,7 +60,7 @@ def favorite_albums():
         FROM
             favorite_albums
         INNER JOIN
-            bp_release ON favorite_albums.release_id = bp_release.release_id
+            bp_release ON favorite_albums.album_id = bp_release.release_id
         INNER JOIN
             artist_release ON bp_release.release_id = artist_release.release_id
         INNER JOIN
@@ -72,6 +72,7 @@ def favorite_albums():
         favorite_albums_list = cursor.fetchall()
         
     return render_template('fav.html', selected_page=selected_page, albums=favorite_albums_list)
+
 
 @fav_bp.route('/artists')
 @login_required
