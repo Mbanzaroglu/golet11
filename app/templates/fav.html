@@ -40,11 +40,11 @@
                             <!-- Albüm adı -->
                             <h5 class="mb-2">{{ album.release_title }}</h5>
                             <!-- Sanatçı adı -->
-                            <p class="mb-2">{{ album.artist_name }}</p>
+                            <p class="mb-2">{{ album.artist_names }}</p>
 
                             <!-- Butonlar -->
                             <div class="d-flex">
-                                <a href="{{ url_for('album_bp.album_detail', release_id=album.release_id, artist_id=album.artist_id) }}" class="btn btn-primary btn-sm me-2">
+                                <a href="{{ url_for('album_bp.album_detail', release_id=album.release_id, artist_id=album.artist_ids.split(',')[0]) }}" class="btn btn-primary btn-sm me-2">
                                     Albümü Görüntüle
                                 </a>
                                 <form action="{{ url_for('album_bp.remove_favorite') }}" method="post" class="d-inline">
