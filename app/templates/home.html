@@ -101,45 +101,50 @@
             <p class="text-danger mt-3">Aradığınız kriterlere uygun bir sonuç bulunamadı.</p>
         {% endif %}
 
-    {% elif selected_page == 'albums' %}
-             <!-- Arama yapıldıysa (query doluysa) ekrana üstte solda, yatay olarak kaplayan bir blokta başlığı gösteriyoruz -->
+        {% elif selected_page == 'albums' %}
+        <!-- Arama yapıldıysa (query doluysa) ekrana üstte solda, yatay olarak kaplayan bir blokta başlığı gösteriyoruz -->
         {% if query %}
         <div class="container-fluid py-2 mb-1 ps-6" style="background-color: transparent; padding-left: 80px;">
             <!-- text-primary ile mavi, mb-0 ile alt boşluk kaldırdık -->
             <h2 class="text-primary mb-0">Arama Sonuçları : {{ query }}</h2>
         </div>
-        
-        
-        
         {% endif %}
-
+    
         <!-- Arama sonucu döndüyse o sonuçları normal 'songs' listesine atıyoruz -->
         {% if search_results %}
             {% set albumss = search_results %}
         {% endif %}
-
-        <!-- Şarkı listesi varsa kartları döngüye sokuyoruz. Kartın yapısını aynen koruyoruz. -->
+    
+        <!-- Albüm listesi varsa kartları döngüye sokuyoruz. -->
         {% if albums and albums|length > 0 %}
-            {% for album in albums %}
-            <div class="card" style="width: 18rem;">
-                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Album Cover">
-                <div class="card-body">
-                    <h4 class="card-title">{{ album.release_title }}</h4>
-                    <p class="card-text">{{ album.artist_name }}</p>
-                    <a
-                    href="{{ url_for('album_bp.album_detail', release_id=album.release_id, artist_id=album.artist_ids.split(',')[0]) }}"   
-                    class="btn btn-primary align-self-start"
-                    >
-                    Details
-                    </a>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- 3 sütun düzeni için row-cols-md-3 kullanıldı -->
+                {% for album in albums %}
+                <div class="col">
+                    <div class="card h-100" style="width: 100%;"> <!-- Yükseklik eşitlemek için h-100 eklendi -->
+                        <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Album Cover">
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title">{{ album.release_title }}</h4>
+                            <p class="card-text" style="margin-top: auto; margin-bottom: auto;">{{ album.artist_name }}</p>
+                        </div>
+                        <div class="card-footer text-end"> <!-- Details düğmesini sağ alta taşımak için text-end kullanıldı -->
+                            <a
+                            href="{{ url_for('album_bp.album_detail', release_id=album.release_id, artist_id=album.artist_ids.split(',')[0]) }}"   
+                            class="btn btn-primary"
+                            >
+                            Details
+                            </a>
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+        </div>
         {% else %}
             <!-- Eğer hiçbir sonuç yoksa kullanıcıya basit bir uyarı mesajı gösteriyoruz -->
             <p class="text-danger mt-3">Aradığınız kriterlere uygun bir sonuç bulunamadı.</p>
         {% endif %}
-            
+
     {% elif selected_page == 'artists' %}
 
     {% else %}
