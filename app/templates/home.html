@@ -110,9 +110,9 @@
         </div>
         {% endif %}
     
-        <!-- Arama sonucu döndüyse o sonuçları normal 'songs' listesine atıyoruz -->
+        <!-- Arama sonucu döndüyse o sonuçları normal 'albums' listesine atıyoruz -->
         {% if search_results %}
-            {% set albumss = search_results %}
+            {% set albums = search_results %}
         {% endif %}
     
         <!-- Albüm listesi varsa kartları döngüye sokuyoruz. -->
@@ -122,7 +122,7 @@
                 {% for album in albums %}
                 <div class="col">
                     <div class="card h-100" style="width: 100%;"> <!-- Yükseklik eşitlemek için h-100 eklendi -->
-                        <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Album Cover">
+                        <img src="https://picsum.photos/600/400?random={{ loop.index }}" class="card-img-top" alt="Album Cover">
                         <div class="card-body d-flex flex-column">
                             <h4 class="card-title">{{ album.release_title }}</h4>
                             <p class="card-text" style="margin-top: auto; margin-bottom: auto;">{{ album.artist_name }}</p>
