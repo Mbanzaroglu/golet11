@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-start" style="min-height: 100vh; margin-top: 80px;">
+    <div class="card shadow-lg p-4" style="width: 400px; border-radius: 10px;">
+        <h2 class="text-center mb-4">{{ form_type == 'register' and 'Kayıt Ol' or 'Giriş Yap' }}</h2>
+
+        {% if form_type == 'login' %}
+        <!-- Login Form -->
+        <form method="POST" action="{{ url_for('auth_bp.login') }}">
+            <div class="mb-3">
+                <label for="username" class="form-label">Kullanıcı Adı</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Şifre</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Giriş Yap</button>
+        </form>
+        <!-- Henüz hesabınız yok mu? Kayıt Ol -->
+        <div class="text-center mt-3">
+          <p>Henüz hesabınız yok mu? <a href="{{ url_for('auth_bp.register', form='register') }}" class="text-primary">Kayıt Ol</a></p>
+        </div>
+        {% elif form_type == 'register' %}
+        <!-- Register Form -->
+        <form method="POST" action="{{ url_for('auth_bp.register') }}">
+            <div class="mb-3">
+                <label for="username" class="form-label">Kullanıcı Adı</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Şifre</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Kayıt Ol</button>
+        </form>
+
+        <!-- Zaten hesabınız var mı? Giriş Yap -->
+        <div class="text-center mt-3">
+            <p>Zaten hesabınız var mı? <a href="{{ url_for('auth_bp.login', form='login') }}" class="text-primary">Giriş Yap</a></p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 *.DS_Store
 .env
+db_env/
+db_initialized
+mysql_connector.py
+db_connection.py

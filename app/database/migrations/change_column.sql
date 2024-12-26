@@ -1,0 +1,1 @@
+ALTER TABLE bp_track MODIFY COLUMN duration TIME;

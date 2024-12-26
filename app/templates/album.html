@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Album Page{% endblock %}
+
+{% block content %}
+<h1 class="header-title mb-5">Albüm Detayları</h1>
+<div class="container">
+    <div class="row">
+        <!-- Sol taraf: Şarkılar -->
+        <div class="col-md-4">
+            <h2 class="mb-4">Şarkı Listesi</h2>
+            <ul class="list-group">
+                {% for track in album.tracks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ loop.index }}. {{ track.title }}
+                        <a 
+                            href="{{ url_for('track_bp.track_detail', track_id=track.number, artist_id=album.artist_ids[loop.index0]) }}" 
+                            class="btn btn-primary btn-sm">
+                            Şarkı Detayları
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>            
+        </div>
+
+        <!-- Sağ taraf: Albüm kapak ve bilgiler -->
+        <div class="col-md-8">
+            <div class="album-header row">
+                <div class="col-md-12 d-flex justify-content-center mb-4">
+                    <!-- Albüm kapak görseli -->
+                    <img src="https://picsum.photos/300" alt="Album Artwork" class="album-artwork img-fluid">
+                </div>
+
+                <!-- Albüm bilgileri -->
+                <div class="album-info text-center">
+                    <h1 class="album-title">{{ album.title }}</h1>
+                    <div class="album-artists mb-3">{{ album.artists | join(', ') }}</div>
+
+                    <!-- Favorilere ekle/kaldır butonu -->
+                    {% if current_user.is_authenticated %}
+                        <form 
+                            action="{{ url_for('album_bp.add_favorite_album') }}" 
+                            method="post" 
+                            class="mt-4">
+                            <input type="hidden" name="release_id" value="{{ album.id }}">
+                            <button type="submit" class="play-button">
+                                <span class="play-icon">{{ '➕' if not is_favorite else '❌' }}</span>
+                                {{ 'Favorilere Ekle' if not is_favorite else 'Favorilerden Kaldır' }}
+                            </button>
+                        </form>
+                    {% else %}
+                        <form action="{{ url_for('auth_bp.login', next=request.url) }}" method="get" class="mt-4">
+                            <button type="submit" class="play-button">
+                                <span class="play-icon">➕</span>
+                                Favorilere Ekle
+                            </button>
+                        </form>
+                    {% endif %}
+
+                    <!-- Metadata alanları -->
+                    <div class="album-metadata mt-4">
+                        <div class="metadata-item">
+                            <div class="metadata-label">Release Date</div>
+                            <div class="metadata-value">{{ album.release_date or 'Unknown' }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
