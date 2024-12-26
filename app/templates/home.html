@@ -157,7 +157,7 @@
         {% if artists and artists|length>0 %}
             {% for artist in artists %}
             <div class="card" style="width: 18rem;">
-                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
+                <img  src="https://picsum.photos/600/400?random={{ loop.index }}" class="card-img-top" alt="Artist Cover">
                 <div class="card-body">
                     <h4 class="card-title">{{ artist.artist_name }}</h4>                    
                     <a 

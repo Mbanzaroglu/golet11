@@ -45,7 +45,7 @@ def artist_detail(artist_id):
 
 
     releases = [
-        {"title": row["release_title"], "date": row["release_date"].strftime("%Y-%m-%d")}
+        {"title": row["release_title"],"release_id":row["release_id"], "date": row["release_date"].strftime("%Y-%m-%d")}
         for row in artist_rows
         if row["release_id"]
     ]
