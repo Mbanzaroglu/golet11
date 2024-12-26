@@ -7,6 +7,7 @@ from dotenv import load_dotenv  # dotenv kütüphanesi eklendi
 from app.models.models import User
 from app.utils.db_connection import get_db_connection_and_cursor
 
+
 # .env dosyasını yükle
 load_dotenv()
 
