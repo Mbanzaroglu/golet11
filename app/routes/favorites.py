@@ -56,8 +56,8 @@ def favorite_albums():
         SELECT
             br.release_id,
             br.release_title,
-            ba.artist_name,
-            ar.artist_id
+            GROUP_CONCAT(DISTINCT ba.artist_name ORDER BY ba.artist_name SEPARATOR ', ') AS artist_names,
+            GROUP_CONCAT(DISTINCT ar.artist_id ORDER BY ar.artist_id SEPARATOR ', ') AS artist_ids
         FROM
             favorite_albums fa
         INNER JOIN
@@ -68,6 +68,8 @@ def favorite_albums():
             bp_artist ba ON ar.artist_id = ba.artist_id
         WHERE
             fa.user_id = %s
+        GROUP BY
+            br.release_id, br.release_title
         """
         cursor.execute(query, (current_user.id,))
         favorite_albums_list = cursor.fetchall()
