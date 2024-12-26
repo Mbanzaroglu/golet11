@@ -68,10 +68,7 @@
         <div class="container-fluid py-2 mb-1 ps-6" style="background-color: transparent; padding-left: 80px;">
             <!-- text-primary ile mavi, mb-0 ile alt boşluk kaldırdık -->
             <h2 class="text-primary mb-0">Arama Sonuçları : {{ query }}</h2>
-        </div>
-        
-        
-        
+        </div>  
         {% endif %}
 
         <!-- Arama sonucu döndüyse o sonuçları normal 'songs' listesine atıyoruz -->
@@ -83,14 +80,13 @@
         {% if songs and songs|length > 0 %}
             {% for song in songs %}
             <div class="card" style="width: 18rem;">
-                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
+                <img src="https://picsum.photos/600/400?random={{ loop.index }}" alt="Random Image">
                 <div class="card-body">
                     <h4 class="card-title">{{ song.song_title }}</h4>
                     <p class="card-text">{{ song.artist_names }}</p>
                     <a 
-                    href="{{ url_for('track_bp.track_detail', track_id=song.track_id, artist_id=song.artist_ids.split(',')[0]) }}" 
-                    class="btn btn-primary align-self-start"
-                    >
+                    href="{{ url_for('track_bp.track_detail', track_id=song.track_id, artist_id=song.artist_ids.split(',')[0], index=loop.index) }}" 
+                    class="btn btn-primary align-self-start">
                     Details
                     </a>
                 </div>
