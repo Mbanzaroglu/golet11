@@ -76,7 +76,7 @@ def favorite_albums():
 @fav_bp.route('/artists')
 @login_required
 def favorite_artists():
-    selected_page = 'favorites_artists'
+    selected_page = 'artists'
     with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
@@ -92,5 +92,15 @@ def favorite_artists():
         """
         cursor.execute(query, (current_user.id,))
         favorite_artists_list = cursor.fetchall()
+    if not favorite_artists_list:
+        return "No Favorite artists found",404 
+
+    artists=[]
+    for row in favorite_artists_list:
+        artists.append({
+            "artist_id": row['artist_id'],
+            "artist_name": row['artist_name']
+        })
+
         
     return render_template('fav.html', selected_page=selected_page, artists=favorite_artists_list)
