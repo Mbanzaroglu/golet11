@@ -1,28 +1,22 @@
 from flask import Blueprint, render_template, request
 from app.utils.db_connection import get_db_connection_and_cursor
 
-# Blueprint tanımlıyoruz
 main_bp = Blueprint('main_bp', __name__)
 
 @main_bp.route('/')
 def home():
-    """
-    Ana sayfaya gelindiğinde home.html dosyasını renderlıyoruz.
-    Navigation çubuğunu gizlemek için 'hide_navigation=True' ekliyoruz.
-    """
     selected_page = "home"
     return render_template('home.html', selected_page=selected_page, hide_navigation=True)
 
 @main_bp.route('/songs')
 def songs():
-    """
-    'songs' sayfasında 50 şarkıyı göstermek için
-    tabloya JOIN atarak şarkı ve sanatçı bilgilerini çekiyoruz.
-    """
     selected_page = "songs"
+    page = request.args.get('page', 1, type=int)
+    per_page = 24
+    offset = (page - 1) * per_page
+
     songs_list = []
     with get_db_connection_and_cursor() as (conn, cursor):
-        # Şarkıları ve sanatçılarını çeken sorgu
         query = """
         SELECT
             bp_track.track_id,
@@ -35,30 +29,33 @@ def songs():
             artist_track ON bp_track.track_id = artist_track.track_id
         INNER JOIN
             bp_artist ON artist_track.artist_id = bp_artist.artist_id
-        INNER JOIN
-            bp_release ON bp_track.release_id = bp_release.release_id
-        INNER JOIN 
-            bp_genre ON bp_track.genre_id = bp_genre.genre_id
         GROUP BY
             bp_track.track_id, bp_track.title
         ORDER BY
             bp_track.track_id ASC
-        LIMIT 50
+        LIMIT %s OFFSET %s
         """
-        cursor.execute(query)
+        cursor.execute(query, (per_page, offset))
         songs_list = cursor.fetchall()
-    return render_template('home.html', selected_page=selected_page, songs=songs_list)
+
+        query_count = "SELECT COUNT(*) as total_songs FROM bp_track"
+        cursor.execute(query_count)
+        res = cursor.fetchone()
+        total_songs=res['total_songs']
+
+
+    total_pages = (total_songs // per_page) + (1 if total_songs % per_page > 0 else 0)
+    return render_template('home.html', selected_page=selected_page, songs=songs_list, page=page, total_pages=total_pages)
 
 @main_bp.route('/albums')
 def albums():
-    """
-    'albums' sayfasında albüm ve sanatçı bilgilerini
-    ilişki tablosu üzerinden alıyoruz.
-    """
-    selected_page = 'albums'
+    selected_page = "albums"
+    page = request.args.get('page', 1, type=int)
+    per_page = 21
+    offset = (page - 1) * per_page
+
     albums_list = []
     with get_db_connection_and_cursor() as (conn, cursor):
-        # Albümleri ve sanatçılarını çeken sorgu
         query = """
         SELECT
             bp_release.release_id,
@@ -80,21 +77,28 @@ def albums():
             bp_release.release_id, bp_release.release_title
         ORDER BY
             bp_release.release_id ASC
-        LIMIT 50;
+        LIMIT %s OFFSET %s;
         """
-        cursor.execute(query)
+        cursor.execute(query, (per_page, offset))
         albums_list = cursor.fetchall()
-    return render_template('home.html', selected_page=selected_page, albums=albums_list)
+
+        query_count = "SELECT COUNT(*) as total_albums FROM bp_release"
+        cursor.execute(query_count)
+        res = cursor.fetchone()
+        total_albums=res['total_albums']
+
+    total_pages = (total_albums // per_page) + (1 if total_albums % per_page > 0 else 0)
+    return render_template('home.html', selected_page=selected_page, albums=albums_list, page=page, total_pages=total_pages)
 
 @main_bp.route('/artists')
 def artists():
-    """
-    'artists' sayfasında sanatçı id, isim ve url bilgilerini alıyoruz.
-    """
-    selected_page = 'artists'
+    selected_page = "artists"
+    page = request.args.get('page', 1, type=int)
+    per_page = 24
+    offset = (page - 1) * per_page
+
     artist_list = []
     with get_db_connection_and_cursor() as (conn, cursor):
-        # Sanatçı tablosundan bilgileri çekiyoruz
         query = """
         SELECT
             artist_id,
@@ -102,10 +106,19 @@ def artists():
             artist_url
         FROM
             bp_artist
+        LIMIT %s OFFSET %s
         """
-        cursor.execute(query)
+        cursor.execute(query, (per_page, offset))
         artist_list = cursor.fetchall()
-    return render_template('home.html', selected_page=selected_page, artists=artist_list)
+
+        query_count = "SELECT COUNT(*) as total_artist FROM bp_artist"
+        cursor.execute(query_count)
+        res = cursor.fetchone()
+        total_artists=res['total_artist']
+
+    total_pages = (total_artists // per_page) + (1 if total_artists % per_page > 0 else 0)
+    return render_template('home.html', selected_page=selected_page, artists=artist_list, page=page, total_pages=total_pages)
+
 
 @main_bp.route('/search', methods=['GET'])
 def search():

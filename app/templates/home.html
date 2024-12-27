@@ -78,6 +78,34 @@
 
         <!-- Şarkı listesi varsa kartları döngüye sokuyoruz. Kartın yapısını aynen koruyoruz. -->
         {% if songs and songs|length > 0 %}
+            <!-- PAGINATION CONTROLS -->
+            <!-- MINIMAL PAGINATION CONTROLS: Prev / [current] / Next -->
+            {% if total_pages > 1 %}
+            <div class="pagination-top">
+                <!-- Prev button -->
+                {% if page > 1 %}
+                <a 
+                    href="{{ url_for('main_bp.songs', page=page-1) }}" 
+                    class="btn btn-secondary me-2"
+                >
+                    Prev
+                </a>
+                {% endif %}
+                
+                <!-- Current page (disabled button) -->
+                <span class="btn btn-primary disabled me-2">{{ page }}</span>
+                
+                <!-- Next button -->
+                {% if page < total_pages %}
+                <a 
+                    href="{{ url_for('main_bp.songs', page=page+1) }}" 
+                    class="btn btn-secondary"
+                >
+                    Next
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
             {% for song in songs %}
             <div class="card" style="width: 18rem;">
                 <img src="https://picsum.photos/600/400?random={{ loop.index }}" alt="Random Image">
@@ -113,6 +141,34 @@
     
         <!-- Albüm listesi varsa kartları döngüye sokuyoruz. -->
         {% if albums and albums|length > 0 %}
+            <!-- PAGINATION CONTROLS -->
+            <!-- MINIMAL PAGINATION CONTROLS: Prev / [current] / Next -->
+            {% if total_pages > 1 %}
+            <div class="pagination-top">
+                <!-- Prev button -->
+                {% if page > 1 %}
+                <a 
+                    href="{{ url_for('main_bp.albums', page=page-1) }}" 
+                    class="btn btn-secondary me-2"
+                >
+                    Prev
+                </a>
+                {% endif %}
+                
+                <!-- Current page (disabled button) -->
+                <span class="btn btn-primary disabled me-2">{{ page }}</span>
+                
+                <!-- Next button -->
+                {% if page < total_pages %}
+                <a 
+                    href="{{ url_for('main_bp.albums', page=page+1) }}" 
+                    class="btn btn-secondary"
+                >
+                    Next
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
         <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- 3 sütun düzeni için row-cols-md-3 kullanıldı -->
                 {% for album in albums %}
@@ -141,36 +197,67 @@
             <p class="text-danger mt-3">Aradığınız kriterlere uygun bir sonuç bulunamadı.</p>
         {% endif %}
 
-    {% elif selected_page == 'artists' %}
-        
-    
+        {% elif selected_page == 'artists' %}
+
         {% if query %}
         <div class="container-fluid py-2 mb-1 ps-6" style="background-color: transparent; padding-left: 80px;">
-            <!-- text-primary ile mavi, mb-0 ile alt boşluk kaldırdık -->
             <h2 class="text-primary mb-0">Arama Sonuçları : {{ query }}</h2>
         </div>
-        
         {% endif %}
 
         {% if search_results %}
             {% set artists = search_results %}
         {% endif %}
-        {% if artists and artists|length>0 %}
+
+        {% if artists and artists|length > 0 %}
+            <!-- PAGINATION CONTROLS -->
+            <!-- MINIMAL PAGINATION CONTROLS: Prev / [current] / Next -->
+            {% if total_pages > 1 %}
+            <div class="pagination-top">
+                <!-- Prev button -->
+                {% if page > 1 %}
+                <a 
+                    href="{{ url_for('main_bp.artists', page=page-1) }}" 
+                    class="btn btn-secondary me-2"
+                >
+                    Prev
+                </a>
+                {% endif %}
+                
+                <!-- Current page (disabled button) -->
+                <span class="btn btn-primary disabled me-2">{{ page }}</span>
+                
+                <!-- Next button -->
+                {% if page < total_pages %}
+                <a 
+                    href="{{ url_for('main_bp.artists', page=page+1) }}" 
+                    class="btn btn-secondary"
+                >
+                    Next
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
             {% for artist in artists %}
             <div class="card" style="width: 18rem;">
-                <img  src="https://picsum.photos/600/400?random={{ loop.index }}" class="card-img-top" alt="Artist Cover">
+                <img src="https://picsum.photos/600/400?random={{ loop.index }}" class="card-img-top" alt="Artist Cover">
                 <div class="card-body">
-                    <h4 class="card-title">{{ artist.artist_name }}</h4>                    
+                    <h4 class="card-title">{{ artist.artist_name }}</h4>
                     <a 
-                    href="{{ url_for('artist_bp.artist_detail', artist_id=artist.artist_id) }}" 
-                    class="btn btn-primary align-self-start"
+                        href="{{ url_for('artist_bp.artist_detail', artist_id=artist.artist_id) }}" 
+                        class="btn btn-primary align-self-start"
                     >
-                    Details
+                        Details
                     </a>
                 </div>
             </div>
-            {% endfor%}
+            {% endfor %}
+
+
+        {% else %}
+            <p class="text-danger mt-3">Aradığınız kriterlere uygun bir sonuç bulunamadı.</p>
         {% endif %}
+        
 
     {% else %}
       <p>Sayfa bulunamadı.</p>
