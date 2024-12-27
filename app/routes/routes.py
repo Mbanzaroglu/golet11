@@ -62,14 +62,25 @@ def albums():
         query = """
         SELECT
             bp_release.release_id,
-            bp_release.release_title,
-            bp_artist.artist_name
+            bp_release.release_title AS release_title,
+            GROUP_CONCAT(DISTINCT bp_artist.artist_name ORDER BY bp_artist.artist_name SEPARATOR ', ') AS artist_name,
+            GROUP_CONCAT(DISTINCT bp_artist.artist_id SEPARATOR ', ') AS artist_ids,
+            GROUP_CONCAT(DISTINCT bp_genre.genre_name ORDER BY bp_genre.genre_name SEPARATOR ', ') AS genre_names
         FROM
             bp_release
         INNER JOIN
             artist_release ON bp_release.release_id = artist_release.release_id
         INNER JOIN
             bp_artist ON artist_release.artist_id = bp_artist.artist_id
+        INNER JOIN
+            bp_track ON bp_release.release_id = bp_track.release_id
+        INNER JOIN
+            bp_genre ON bp_track.genre_id = bp_genre.genre_id
+        GROUP BY
+            bp_release.release_id, bp_release.release_title
+        ORDER BY
+            bp_release.release_id ASC
+        LIMIT 50;
         """
         cursor.execute(query)
         albums_list = cursor.fetchall()
@@ -165,22 +176,27 @@ def search():
 
         elif selected_page == 'albums':
             """
-            'albums' sayfası için albüm ve sanatçı bilgilerini getiriyoruz.
+            'albums' sayfası için albüm ve şarkı bilgilerini getiriyoruz.
             """
             query = """
             SELECT
                 bp_release.release_id,
-                bp_release.release_title,
-                bp_artist.artist_name
+                bp_release.release_title AS release_title,
+                GROUP_CONCAT(DISTINCT bp_artist.artist_name ORDER BY bp_artist.artist_name SEPARATOR ', ') AS artist_name,
+                GROUP_CONCAT(DISTINCT bp_artist.artist_id SEPARATOR ', ') AS artist_ids
             FROM
                 bp_release
-            INNER JOIN
+            LEFT JOIN
                 artist_release ON bp_release.release_id = artist_release.release_id
-            INNER JOIN
+            LEFT JOIN
                 bp_artist ON artist_release.artist_id = bp_artist.artist_id
             WHERE
                 bp_release.release_title LIKE %s
                 OR bp_artist.artist_name LIKE %s
+            GROUP BY
+                bp_release.release_id, bp_release.release_title
+            ORDER BY
+                bp_release.release_id ASC
             """
             search_term = f"%{query_param}%"
             cursor.execute(query, (search_term, search_term))
@@ -188,7 +204,7 @@ def search():
 
         else:
             """
-            Herhangi bir değer gelmediyse varsayılan olarak şarkı arıyoruz.
+            Herhangi bir değer gelmediyse varsayılan olarak albüm arıyoruz.
             """
             query = """
             SELECT

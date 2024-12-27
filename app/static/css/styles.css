@@ -326,3 +326,66 @@ body, html {
   /* show sınıfı kalkıp fade eklenince opaklık 0 olur ve 2 saniyede kaybolur */
   transition: opacity 2s ease-in-out;
 }
+
+
+.artist-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.artist-name {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.artist-details {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.artist-image img {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.artist-releases {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.artist-releases h2 {
+  margin-bottom: 10px;
+}
+
+.artist-releases ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.artist-releases li {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.favorite-status {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+.artist-release{
+  border: 1px solid #ccc; 
+  padding: 10px; 
+  margin: 5px 0;
+}
+
+.favorite-form {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

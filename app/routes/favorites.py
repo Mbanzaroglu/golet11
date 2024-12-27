@@ -50,33 +50,37 @@ def favorite_songs():
 @fav_bp.route('/albums')
 @login_required
 def favorite_albums():
-    selected_page = 'favorites_albums'
+    selected_page = 'releases'
     with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
-            bp_release.release_id,
-            bp_release.release_title,
-            bp_artist.artist_name
+            br.release_id,
+            br.release_title,
+            GROUP_CONCAT(DISTINCT ba.artist_name ORDER BY ba.artist_name SEPARATOR ', ') AS artist_names,
+            GROUP_CONCAT(DISTINCT ar.artist_id ORDER BY ar.artist_id SEPARATOR ', ') AS artist_ids
         FROM
-            favorite_albums
+            favorite_albums fa
         INNER JOIN
-            bp_release ON favorite_albums.release_id = bp_release.release_id
+            bp_release br ON fa.album_id = br.release_id
         INNER JOIN
-            artist_release ON bp_release.release_id = artist_release.release_id
+            artist_release ar ON br.release_id = ar.release_id
         INNER JOIN
-            bp_artist ON artist_release.artist_id = bp_artist.artist_id
+            bp_artist ba ON ar.artist_id = ba.artist_id
         WHERE
-            favorite_albums.user_id = %s
+            fa.user_id = %s
+        GROUP BY
+            br.release_id, br.release_title
         """
         cursor.execute(query, (current_user.id,))
         favorite_albums_list = cursor.fetchall()
         
     return render_template('fav.html', selected_page=selected_page, albums=favorite_albums_list)
 
+
 @fav_bp.route('/artists')
 @login_required
 def favorite_artists():
-    selected_page = 'favorites_artists'
+    selected_page = 'artists'
     with get_db_connection_and_cursor() as (conn, cursor):
         query = """
         SELECT
@@ -92,5 +96,15 @@ def favorite_artists():
         """
         cursor.execute(query, (current_user.id,))
         favorite_artists_list = cursor.fetchall()
+    if not favorite_artists_list:
+        return "No Favorite artists found",404 
+
+    artists=[]
+    for row in favorite_artists_list:
+        artists.append({
+            "artist_id": row['artist_id'],
+            "artist_name": row['artist_name']
+        })
+
         
     return render_template('fav.html', selected_page=selected_page, artists=favorite_artists_list)

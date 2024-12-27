@@ -9,7 +9,7 @@
         {% for track in tracks %}
             <div class="card" style="width: 18rem;">
                 <!-- Placeholder image -->
-                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Song Cover">
+                <img src="https://picsum.photos/600/400?random={{ loop.index }}" alt="Random Image">
                 <div class="card-body">
                     <!-- Dynamic song title -->
                     <h4 class="card-title">{{ track.title }}</h4>
@@ -22,9 +22,56 @@
         {% endfor %}
 
     {% elif selected_page == 'artists' %}
+        {% for artist in artists %}
+        <div class="card" style="width: 18rem;">
+            <!-- Placeholder image -->
+            <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Artist Cover">
+            <div class="card-body">
+                <!-- Dynamic song title -->
+                <h4 class="card-title">{{ artist.artist_name }}</h4>
+                <!-- Button to view details or listen to the song -->
+                <a href="{{ url_for('artist_bp.artist_detail', artist_id=artist.artist_id) }}" class="btn btn-primary align-self-start">Details</a>            
+            </div>
+        </div>
+        {% endfor %}
         
     {% elif selected_page == 'releases' %}
+        <div class="container mt-5">
+            <h1 class="text-center mb-5">Favori Albümler</h1>
 
+            <!-- Albümleri sıralamak için grid sistemi -->
+            <div class="row">
+                {% for album in albums %}
+                <div class="col-md-6 mb-4">
+                    <div class="card d-flex flex-row align-items-center p-2" style="height: 150px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                        <!-- Albüm görseli -->
+                        <img src="https://picsum.photos/100?random={{ loop.index }}" class="img-fluid me-3" alt="Albüm Görseli" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+
+                        <!-- Albüm bilgileri ve butonlar -->
+                        <div class="d-flex flex-column justify-content-center flex-grow-1">
+                            <!-- Albüm adı -->
+                            <h5 class="mb-2">{{ album.release_title }}</h5>
+                            <!-- Sanatçı adı -->
+                            <p class="mb-2">{{ album.artist_names }}</p>
+
+                            <!-- Butonlar -->
+                            <div class="d-flex">
+                                <a href="{{ url_for('album_bp.album_detail', release_id=album.release_id, artist_id=album.artist_ids.split(',')[0]) }}" class="btn btn-primary btn-sm me-2">
+                                    Albümü Görüntüle
+                                </a>
+                                <form action="{{ url_for('album_bp.remove_favorite') }}" method="post" class="d-inline">
+                                    <input type="hidden" name="release_id" value="{{ album.release_id }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Favorilerden Kaldır
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     {% else %}
       <p>Sayfa bulunamadı.</p>
     {% endif %}
