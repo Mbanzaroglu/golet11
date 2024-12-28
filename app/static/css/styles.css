@@ -22,7 +22,7 @@ footer {
     text-align: center; /* Ortaya hizalama */
     padding: 15px 0; /* Yukarı ve aşağı boşluk */
     font-size: 14px; /* Yazı boyutu */
-    position: fixed; /* Dinamik yerleşim */
+    position: relative ; /* Dinamik yerleşim */
     bottom: 0; /* Alt hizalama */
     width: 100%; /* Sayfanın tamamını kapla */
     /* position: fixed; Sabit konumlandırma */
@@ -391,8 +391,30 @@ body, html {
 }
 
 .pagination-top {
+  margin-top: 20px;
   justify-content: center;
   text-align: center;
   width: 100%;
   height: 23px;
+}
+
+.row-like {
+  display: flex;          /* Use flexbox for row layout */
+  flex-wrap: wrap;        /* Wrap elements to the next row if needed */
+  margin-right: -15px;    /* Negative margins for spacing */
+  margin-left: -15px;
+  margin-bottom: 20px; 
+}
+.col-like {
+  flex: 0 0 25%;          /* Each column takes 25% of the row */
+  max-width: 25%;         /* Ensure the maximum width is 25% */
+  padding-right: 15px;    /* Padding for spacing between cards */
+  padding-left: 15px;
+  /*box-sizing: border-box; /* Consistent box model */
+
+  margin-bottom: 20px; 
+}
+
+.card{
+  margin-bottom: 20px; 
 }
