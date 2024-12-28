@@ -28,7 +28,7 @@
             <div class="album-header row">
                 <div class="col-md-12 d-flex justify-content-center mb-4">
                     <!-- Albüm kapak görseli -->
-                    <img src="https://picsum.photos/300" alt="Album Artwork" class="album-artwork img-fluid">
+                    <img src="https://picsum.photos/seed/picsum/300" alt="Album Artwork" class="album-artwork img-fluid">
                 </div>
 
                 <!-- Albüm bilgileri -->
@@ -39,7 +39,7 @@
                     <!-- Favorilere ekle/kaldır butonu -->
                     {% if current_user.is_authenticated %}
                         <form 
-                            action="{{ url_for('album_bp.add_favorite_album') }}" 
+                            action="{{ url_for('album_bp.add_favorite_album') if not is_favorite else url_for('album_bp.remove_favorite') }}" 
                             method="post" 
                             class="mt-4">
                             <input type="hidden" name="release_id" value="{{ album.id }}">
