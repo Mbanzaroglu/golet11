@@ -17,6 +17,13 @@ Ahmet Akın
 -
 -
 Umut Önal
--
--
--
+-routes.py dosyasındaki query yazıldı ve şarkılar listelendi
+-home.html albüms sayfasının tasarımı yapıldı
+-favorites.py dosyası albums querysi düzenlendi
+-fav.html albüms sayfasının tasarımı yapıldı
+-favori albümler sayfasına favorilerden çıkar tuşu eklendi
+-albüm detayları sayfasındaki şarkı listesine şarkı detayları tuşu eklendi ve track details sayfası ile bağlantısı yapıldı
+-search bar fonksiyonları düzenlendi
+-navbarda tasarım değişiklikleri yapıldı
+-favori şarkılar ve sanatçılar sayfalarına remove tuşu eklendi
+-albümle alakalı bütün sayfalara rastgele resimler eklendi
