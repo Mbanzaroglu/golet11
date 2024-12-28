@@ -15,19 +15,20 @@ def album_detail(release_id, artist_id):
             br.release_id,
             br.release_title,
             br.release_date,
-            br.release_title,
             ba.artist_name,
             ba.artist_id,
             bt.title,
             bt.track_id
         FROM
             bp_release br
-        LEFT JOIN
+        inner JOIN
             artist_release ar ON br.release_id = ar.release_id
-        LEFT JOIN
+        inner JOIN
             bp_artist ba ON ar.artist_id = ba.artist_id
-        LEFT JOIN
+        inner JOIN
             bp_track bt ON br.release_id = bt.release_id
+        inner join
+			artist_track at on at.artist_id=ar.artist_id and at.track_id=bt.track_id 
         WHERE
             br.release_id = %(release_id)s AND
             ba.artist_id = %(artist_id)s
