@@ -13,9 +13,16 @@ Muhammet Banzaroğlu
 -Home.html ve navbar.html dosyalarında search bar için ilgili koşullar ve bloklar yazıldı.
 -routes.py main_bp.search fonksiyonunda songs için gereken sorgular yazıldı. 
 Ahmet Akın
--
--
--
+-Project structure updated
+-Edited database, Reduced size for compatible data
+-Templates created for pages
+-Created artist page and blueprint
+-Added favorite artist page and blueprints updated
+-Fixed broken sql scripts on albums page
+-Added images as placeholders
+-Added Pagination in the top of the page
+-Fixed footer issues
+-Moved pagination in the bottom
 Umut Önal
 -routes.py dosyasındaki query yazıldı ve şarkılar listelendi
 -home.html albüms sayfasının tasarımı yapıldı
