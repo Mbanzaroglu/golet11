@@ -23,6 +23,8 @@ Ahmet Akın
 -Added Pagination in the top of the page
 -Fixed footer issues
 -Moved pagination in the bottom
+-Added User recommendation system
+-fixed home page for auth User
 Umut Önal
 -routes.py dosyasındaki query yazıldı ve şarkılar listelendi
 -home.html albüms sayfasının tasarımı yapıldı
