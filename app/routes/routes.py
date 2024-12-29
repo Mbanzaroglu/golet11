@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request ,redirect, url_for
 from app.utils.db_connection import get_db_connection_and_cursor
 from flask_login import login_required, current_user
 
@@ -7,6 +7,8 @@ main_bp = Blueprint('main_bp', __name__)
 @main_bp.route('/')
 def home():
     selected_page = "home"
+    if current_user.is_authenticated:
+        return redirect(url_for('main_bp.auth_home'))
     return render_template('home.html', selected_page=selected_page, hide_navigation=True)
 
 @main_bp.route('/home')
