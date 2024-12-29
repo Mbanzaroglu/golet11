@@ -11,7 +11,11 @@
                 <h2>Hoşgeldin, {{ user_name }}!</h2>
                 <h4>Bazı Öneriler</h4>
                 <h5>sadece senin için</h5>
+                <div class="mb-3">
+                    <a href="{{ url_for('main_bp.auth_home') }}" class="btn btn-success refresh-button">Önerileri Tazele</a>
+                </div>  
             </div>
+
             <!-- Recommendations for tracks -->
             {% if recommendations.tracks %}
             <div class="row row-like">

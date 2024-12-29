@@ -25,6 +25,7 @@ Ahmet Akın
 -Moved pagination in the bottom
 -Added User recommendation system
 -fixed home page for auth User
+-Added refresh button for recommendations
 Umut Önal
 -routes.py dosyasındaki query yazıldı ve şarkılar listelendi
 -home.html albüms sayfasının tasarımı yapıldı

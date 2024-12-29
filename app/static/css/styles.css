@@ -410,11 +410,37 @@ body, html {
   max-width: 25%;         /* Ensure the maximum width is 25% */
   padding-right: 15px;    /* Padding for spacing between cards */
   padding-left: 15px;
-  /*box-sizing: border-box; /* Consistent box model */
+  box-sizing: border-box; /* Consistent box model */
 
   margin-bottom: 20px; 
 }
 
 .card{
   margin-bottom: 20px; 
+}
+
+.refresh-button {
+  display: block;
+  width: auto;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #28a745;
+  color: white;
+  border: 1px solid #28a745;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.refresh-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.refresh-button:active {
+  background-color: #1e7e34;
+  transform: translateY(0);
 }
