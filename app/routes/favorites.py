@@ -31,8 +31,8 @@ def favorite_songs():
         cursor.execute(query, {'user_id': current_user.id})
         track_rows = cursor.fetchall()
 
-    if not track_rows:
-        return "No tracks found for this user.", 404
+    # if not track_rows:
+    #     return "No tracks found for this user.", 404
 
     tracks = []
     for row in track_rows:
@@ -96,8 +96,8 @@ def favorite_artists():
         """
         cursor.execute(query, (current_user.id,))
         favorite_artists_list = cursor.fetchall()
-    if not favorite_artists_list:
-        return "No Favorite artists found",404 
+    # if not favorite_artists_list:
+    #     return "No Favorite artists found",404 
 
     artists=[]
     for row in favorite_artists_list:
