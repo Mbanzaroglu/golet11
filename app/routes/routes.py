@@ -389,5 +389,6 @@ def search():
         'home.html',
         selected_page=selected_page,
         search_results=search_results,
-        query=query_param
+        query=query_param,
+        total_pages=1
     )
