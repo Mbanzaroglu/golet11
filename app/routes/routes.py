@@ -84,7 +84,18 @@ def auth_home():
             cursor.execute(query, favorite_albums)
             avg_genre = cursor.fetchone()['avg_genre']
 
-            if avg_genre:
+            query="""
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM bp_genre
+                    WHERE genre_id = %s
+                ) AS result;
+            """
+            cursor.execute(query,(avg_genre,))
+            is_genre=int(cursor.fetchone()['result'])
+            
+
+            if is_genre:
                 query = """
                     SELECT bp_release.release_id, bp_release.release_title, artist_release.artist_id
                     FROM bp_release
@@ -93,8 +104,19 @@ def auth_home():
                     WHERE genre_id = %s
                     ORDER BY RAND() LIMIT 4
                 """
+                
                 cursor.execute(query, (avg_genre,))
                 recommendations['albums'] = cursor.fetchall()
+            else:
+                cursor.execute("""
+                    SELECT bpr.release_id, bpr.release_title, bpt.genre_id, artist_release.artist_id
+                    FROM bp_release bpr
+                    INNER JOIN artist_release ON bpr.release_id = artist_release.release_id
+                    INNER JOIN bp_track bpt ON bpr.release_id=bpt.release_id 
+                    ORDER BY RAND() LIMIT 4
+                """)
+                recommendations['albums'] = cursor.fetchall()
+
         else:
             # No favorite albums, provide random album recommendations
             cursor.execute("""
