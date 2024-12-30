@@ -29,6 +29,7 @@ Ahmet Akın
 -Fixed bugs for authorised user routing
 -added migrations to delete unused tables
 -Fixed broken album recommendation
+-DB credentials moved to .env file and removed from source code
 Umut Önal
 -routes.py dosyasındaki query yazıldı ve şarkılar listelendi
 -home.html albüms sayfasının tasarımı yapıldı
