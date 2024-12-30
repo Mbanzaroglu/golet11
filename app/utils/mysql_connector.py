@@ -1,15 +1,19 @@
 import mysql.connector
 from mysql.connector import Error
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
+
 
 def connect_db():
     try:
         conn = mysql.connector.connect(
-            host="127.0.0.1",
-            port=3306,
-            user="root",
-            password="",
-            database="beatport_db",
+            host=os.getenv('MYSQL_HOST'),
+            port=os.getenv('MYSQL_PORT'),
+            user=os.getenv('MYSQL_USER'),
+            password=os.getenv('MYSQL_USER_PASSWORD'),
+            database=os.getenv('MYSQL_DB'),
             ssl_disabled=True  # SSL'i devre dışı bırak
         )
         return conn
